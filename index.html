@@ -65,7 +65,6 @@
         .radio-group { display: flex; flex-direction: column; gap: 0.8rem; }
         .radio-label { display: flex; align-items: center; gap: 0.6rem; background: #faf8f5; border: 1px solid #ebdcc5; padding: 0.8rem; border-radius: 6px; cursor: pointer; font-weight: 500; }
 
-        /* UPI Payment Section Layout */
         .upi-pay-box { text-align: center; margin: 1rem 0; padding: 1rem; background: #f0f7f4; border: 1px solid #c3e6cb; border-radius: 8px; display: none; }
         .upi-qr { width: 180px; height: 180px; margin: 0.5rem auto; border: 4px solid white; display: block; }
         .upi-apps-btn { display: inline-block; background-color: #0070e0; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: bold; text-decoration: none; font-size: 0.9rem; margin-top: 0.5rem; }
@@ -126,46 +125,54 @@
             <div class="product-card" data-category="daily"><img class="product-img" src="glass.jpg"><div class="product-info"><div><h3>Traditional Metal Glass</h3><p>Weighted robust base design.</p></div><div><span class="price-tag">₹280</span><select class="qty-select" id="qty-glass"><option>1</option><option>2</option><option>3</option></select><button class="buy-btn" onclick="addToCart('Traditional Metal Glass', 280, 'qty-glass')">Add to Cart</button></div></div></div>
             <div class="product-card" data-category="daily"><img class="product-img" src="bowl.jpg"><div class="product-info"><div><h3>Premium Serving Bowl</h3><p>Mirror polished display finish.</p></div><div><span class="price-tag">₹180</span><select class="qty-select" id="qty-bowl"><option>1</option><option>2</option><option>3</option></select><button class="buy-btn" onclick="addToCart('Premium Serving Bowl', 180, 'qty-bowl')">Add to Cart</button></div></div></div>
             <div class="product-card" data-category="daily"><img class="product-img" src="hata.jpg"><div class="product-info"><div><h3>Heavy Cooking Hata</h3><p>Long handle extended ladle.</p></div><div><span class="price-tag">₹150</span><select class="qty-select" id="qty-hata"><option>1</option><option>2</option><option>3</option></select><button class="buy-btn" onclick="addToCart('Heavy Cooking Hata', 150, 'qty-hata')">Add to Cart</button></div></div></div>
-            <div class="product-card" data-category="daily"><img class="product-img" src="khunti.jpg"><div class="product-info"><div><h3>Authentic Forged Khunti</h3><p>Flat rugged cooking spatula.</p></div><div><span class="price-tag">₹160</span><select class="qty-select" id="qty-khunti"><option>1</option><option>2</option><option>3</option></select><button class="buy-btn" onclick="addToCart('Authentic Forged Khunti', 160, 'qty-khunti')">Add to Cart</button></div></div></div>
+            <div class="product-card" data-category="daily"><img class="product-img" src="khunti.jpg"><div class="product-info"><div><h3>Authentic Forged Khunti</h3><p>Flat rugged cooking spatula.</p></div><div><span class="price-tag">₹160</span><select class="qty-select" id="qty-khunti"><option>1</option><option>2</option><option>3</option></select><button class="buy-btn" onclick="addToCart('Authentic Forged Khunti', 160, 'qty-khunti' )">Add to Cart</button></div></div></div>
         </div>
     </div>
-    <!-- NATIVE AMAZON-STYLE CHECKOUT PAGE -->
+    <!-- NATIVE AMAZON-STYLE SECURE FORM CHECKOUT PAGE -->
     <div id="checkout-page-view">
         <div class="category-header-bar" style="background-color: var(--primary);">
             <h2>Amazon-Style Secure Checkout</h2>
             <button class="back-btn" onclick="returnToHome()">← Cancel & Go Back</button>
         </div>
         
-        <div class="checkout-flex">
-            <div class="checkout-form-panel">
-                <div class="form-section-title">1. Delivery Address Location</div>
-                <div class="form-group"><label>Full Name</label><input type="text" class="form-control" id="cust-name" placeholder="John Doe"></div>
-                <div class="form-group"><label>Mobile Number</label><input type="tel" class="form-control" id="cust-phone" placeholder="9876543210"></div>
-                <div class="form-group"><label>Pincode</label><input type="number" class="form-control" id="cust-pin" placeholder="742101"></div>
-                <div class="form-group"><label>Full Street Address</label><input type="text" class="form-control" id="cust-address" placeholder="12/A Baker Street, Near Station"></div>
-            </div>
+        <!-- Standard Form Gateway for Formspree Pipeline Engine -->
+        <form id="native-checkout-form" action="https://formspree.io/f/mrenkkpw" method="POST" onsubmit="handleFormSubmission(event)">
+            <div class="checkout-flex">
+                <div class="checkout-form-panel">
+                    <div class="form-section-title">1. Delivery Address Location</div>
+                    <div class="form-group"><label>Full Name</label><input type="text" class="form-control" name="Customer Name" id="cust-name" required placeholder="John Doe"></div>
+                    <div class="form-group"><label>Mobile Number</label><input type="tel" class="form-control" name="Phone Number" id="cust-phone" required placeholder="9876543210"></div>
+                    <div class="form-group"><label>Pincode</label><input type="number" class="form-control" name="Pincode" id="cust-pin" required placeholder="742101"></div>
+                    <div class="form-group"><label>Full Street Address</label><input type="text" class="form-control" name="Full Address" id="cust-address" required placeholder="12/A Baker Street, Near Station"></div>
+                </div>
 
-            <div class="checkout-form-panel">
-                <div class="form-section-title">2. Select Payment Method</div>
-                <div class="radio-group">
-                    <label class="radio-label"><input type="radio" name="pay-method" value="COD" checked onclick="handlePaymentToggle()"><span>📦 Pay on Delivery (Cash/UPI)</span></label>
-                    <label class="radio-label"><input type="radio" name="pay-method" value="UPI" onclick="handlePaymentToggle()"><span>📱 Pay Online via UPI QR / App Button</span></label>
-                </div>
-                
-                <!-- Live Dynamic UPI Payment Node -->
-                <div class="upi-pay-box" id="upi-node">
-                    <p style="font-weight:600; font-size:0.9rem; color:var(--primary);">Scan QR or Click Mobile Link to Pay:</p>
-                    <img class="upi-qr" id="live-upi-qr" src="">
-                    <a class="upi-apps-btn" id="live-upi-link" href="#" target="_blank">Open UPI App (Mobile Only)</a>
-                    <p style="font-size:0.8rem; margin-top:0.5rem; color:var(--text-muted);">After paying, click the brown confirm order button below.</p>
-                </div>
-                
-                <div style="margin-top: 2rem; padding-top: 1rem; border-top: 2px solid #ebdcc5;">
-                    <h3 style="display:flex; justify-content:space-between; margin-bottom:1.5rem;">Order Total: <span id="checkout-grand-total">₹0</span></h3>
-                    <button class="buy-btn" style="padding:1rem; font-size:1.1rem;" onclick="validateAndProcessOrder()">Confirm & Place Your Order</button>
+                <div class="checkout-form-panel">
+                    <div class="form-section-title">2. Select Payment Method</div>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="Payment Method" value="Pay on Delivery (COD)" checked onclick="handlePaymentToggle('COD')"><span>📦 Pay on Delivery (Cash/UPI)</span></label>
+                        <label class="radio-label"><input type="radio" name="Payment Method" value="UPI Online Payment" onclick="handlePaymentToggle('UPI')"><span>📱 Pay Online via UPI QR / App Button</span></label>
+                    </div>
+                    
+                    <!-- Dynamic Live Real UPI Node Component -->
+                    <div class="upi-pay-box" id="upi-node">
+                        <p style="font-weight:600; font-size:0.9rem; color:var(--primary);">Scan QR or Click Mobile Link to Pay:</p>
+                        <img class="upi-qr" id="live-upi-qr" src="">
+                        <a class="upi-apps-btn" id="live-upi-link" href="#" target="_blank">Open UPI App (Mobile Only)</a>
+                        <p style="font-size:0.8rem; margin-top:0.5rem; color:var(--text-muted);">After paying, click the brown confirm order button below.</p>
+                    </div>
+                    
+                    <!-- Formspree Payload Injection Slots -->
+                    <input type="hidden" name="Order ID" id="hidden-order-id">
+                    <input type="hidden" name="Ordered Items Summary" id="hidden-items-string">
+                    <input type="hidden" name="Total Bill Amount" id="hidden-total-bill">
+
+                    <div style="margin-top: 2rem; padding-top: 1rem; border-top: 2px solid #ebdcc5;">
+                        <h3 style="display:flex; justify-content:space-between; margin-bottom:1.5rem;">Order Total: <span id="checkout-grand-total">₹0</span></h3>
+                        <button type="submit" class="buy-btn" style="padding:1rem; font-size:1.1rem;">Confirm & Place Your Order</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 
     <!-- DIGITAL ORDER SUCCESS SCREEN -->
@@ -199,13 +206,8 @@
 
     <script>
     var cart = [];
-    
-    // CONFIGURATION: Apna Real UPI ID yahan dalein taaki payment aapke paas aaye
     var MY_UPI_ID = "8617565772@ptsbi"; 
     var MERCHANT_NAME = "Potiva Store";
-
-    // EMAIL CONFIGURATION: Apka Formspree Form ID yahan aayega
-    var FORMSPREE_ID = "mrenkkpw"; 
 
     function openCategoryPage(categoryName, categoryDisplayName) {
         document.getElementById("homepage-view").style.display = "none";
@@ -266,8 +268,7 @@
         cart.forEach(item => total += (item.price * item.qty));
         document.getElementById("checkout-grand-total").innerText = "₹" + total;
         
-        // Dynamic UPI Parameter Generator Engine
-        var upiString = `upi://pay?pa=${MY_UPI_ID}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${total}&cu=INR&tn=Potiva%20Store%20Order`;
+        var upiString = `upi://pay?pa=${MY_UPI_ID}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${total}&cu=INR&tn=PotivaStoreOrder`;
         document.getElementById("live-upi-link").href = upiString;
         document.getElementById("live-upi-qr").src = `https://qrserver.com{encodeURIComponent(upiString)}`;
         
@@ -278,56 +279,55 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function handlePaymentToggle() {
-        var selected = document.querySelector('input[name="pay-method"]:checked').value;
-        document.getElementById("upi-node").style.display = (selected === "UPI") ? "block" : "none";
+    function handlePaymentToggle(mode) {
+        document.getElementById("upi-node").style.display = (mode === "UPI") ? "block" : "none";
     }
 
-    function validateAndProcessOrder() {
+    function handleFormSubmission(event) {
+        event.preventDefault();
+        
         var name = document.getElementById("cust-name").value.trim();
         var phone = document.getElementById("cust-phone").value.trim();
         var pin = document.getElementById("cust-pin").value.trim();
         var address = document.getElementById("cust-address").value.trim();
-        var payment = document.querySelector('input[name="pay-method"]:checked').value;
-        
-        if(!name || !phone || !pin || !address) { alert("Please fill out all missing delivery fields!"); return; }
         
         var randomId = "POT-" + Math.floor(100000 + Math.random() * 900000);
-        document.getElementById("display-order-id").innerText = "ORDER ID: #" + randomId;
+        
+        var total = 0;
+        var itemsString = "";
         
         var receiptContainer = document.getElementById("receipt-items-box");
         receiptContainer.innerHTML = "<h4>Receipt Details:</h4><br>";
         receiptContainer.innerHTML += `<div class="receipt-row"><span>Ship To:</span><span><strong>${name}</strong> (${phone})</span></div>`;
         receiptContainer.innerHTML += `<div class="receipt-row"><span>Address:</span><span>${address}, Pin: ${pin}</span></div>`;
-        receiptContainer.innerHTML += `<div class="receipt-row" style="color:var(--accent); font-weight:bold;"><span>Payment:</span><span>${payment}</span></div>`;
         
-        var total = 0;
-        var itemsString = "";
         cart.forEach(item => {
             var cost = item.price * item.qty; total += cost;
             receiptContainer.innerHTML += `<div class="receipt-row"><span>${item.name} (x${item.qty})</span><span>₹${cost}</span></div>`;
-            itemsString += `${item.name} x ${item.qty} (₹${cost}), `;
+            itemsString += `${item.name} x ${item.qty} (₹${cost}) | `;
         });
         receiptContainer.innerHTML += `<div class="receipt-row" style="font-weight:bold; border-top:2px solid #ebdcc5; font-size:1.1rem;"><span>Grand Total:</span><span>₹${total}</span></div>`;
         
-        // Background Formspree Email Pipeline API Call
-        if(FORMSPREE_ID !== "mrenkkpw") {
-            fetch(`https://formspree.io{FORMSPREE_ID}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify({
-                    "Order ID": "#" + randomId,
-                    "Customer Name": name,
-                    "Phone Number": phone,
-                    "Pincode": pin,
-                    "Full Address": address,
-                    "Payment Method": payment,
-                    "Ordered Items": itemsString,
-                    "Total Amount": "₹" + total
-                })
-            }).catch(err => console.log("Email pipeline log: ", err));
-        }
+        // Inject payload values right before posting form data to Formspree API tunnel
+        document.getElementById("hidden-order-id").value = "#" + randomId;
+        document.getElementById("hidden-items-string").value = itemsString;
+        document.getElementById("hidden-total-bill").value = "₹" + total;
+        document.getElementById("display-order-id").innerText = "ORDER ID: #" + randomId;
 
+        var form = document.getElementById("native-checkout-form");
+        var data = new FormData(form);
+        
+        fetch(form.action, {
+            method: form.method,
+            body: data,
+            headers: { 'Accept': 'application/json' }
+        }).then(response => {
+            console.log("Order transmitted cleanly to Formspree database.");
+        }).catch(error => {
+            console.log("Transmission log: ", error);
+        });
+
+        // UI view update updates
         cart = []; updateCartUI();
         document.getElementById("cust-name").value = ""; document.getElementById("cust-phone").value = "";
         document.getElementById("cust-pin").value = ""; document.getElementById("cust-address").value = "";
