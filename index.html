@@ -8,12 +8,11 @@
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #5c320f; --primary-light: #724216; --accent: #b8860b; --accent-light: #dfb13c; --bg: #fbf9f4; --text: #2c2520; --text-muted: #61554d; --white: #ffffff; --whatsapp: #25D366; --whatsapp-hover: #128C7E; }
+        :root { --primary: #5c320f; --primary-light: #724216; --accent: #b8860b; --accent-light: #dfb13c; --bg: #fbf9f4; --text: #2c2520; --text-muted: #61554d; --white: #ffffff; --success: #2e7d32; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; padding-bottom: 60px; }
         .announcement-bar { background-color: var(--accent); color: var(--white); text-align: center; padding: 0.6rem 1rem; font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
         
-        /* Floating Amazon-Style Navigation Bar */
         .navbar { background-color: var(--primary); padding: 1rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .nav-logo { font-family: 'Cinzel', serif; color: var(--white); font-size: 1.5rem; font-weight: bold; cursor: pointer; }
         .cart-icon-btn { background: none; border: none; color: var(--white); font-size: 1.2rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
@@ -32,7 +31,7 @@
         .category-card:hover { border-color: var(--accent); background-color: var(--primary); color: var(--white); transform: translateY(-5px); }
         .category-card h2 { font-family: 'Cinzel', serif; font-size: 1.6rem; margin-bottom: 0.8rem; }
 
-        #category-page-view { display: none; width: 100%; }
+        #category-page-view, #success-page-view { display: none; width: 100%; }
         .category-header-bar { background-color: var(--primary-light); color: var(--white); padding: 2rem 1rem; text-align: center; }
         .category-header-bar h2 { font-family: 'Cinzel', serif; font-size: 2rem; }
         .back-btn { display: inline-block; margin-top: 0.5rem; background: none; border: 1px solid var(--accent-light); color: var(--accent-light); padding: 0.4rem 1.2rem; border-radius: 4px; cursor: pointer; font-weight: 600; }
@@ -44,26 +43,29 @@
         .product-card h3 { color: var(--primary); font-size: 1.3rem; margin-bottom: 0.5rem; }
         .price-tag { font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; display: block; }
         
-        /* Amazon-Style Controls */
         .qty-select { padding: 0.4rem; width: 100%; margin-bottom: 0.8rem; border: 1px solid #ebdcc5; border-radius: 6px; font-weight: bold; }
         .buy-btn { background-color: #f0c14b; border: 1px solid #a88734; color: #111; text-align: center; padding: 0.8rem 1rem; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; display: block; font-size: 0.95rem; }
         .buy-btn:hover { background-color: #ddb347; }
 
-        /* Amazon Slide-out Cart Drawer */
         .cart-drawer { position: fixed; top: 0; right: -350px; width: 350px; height: 100%; background-color: var(--white); z-index: 200; box-shadow: -4px 0 15px rgba(0,0,0,0.2); transition: right 0.3s ease; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; }
         .cart-drawer.open { right: 0; }
         .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f5ece1; padding-bottom: 1rem; }
         .close-cart { font-size: 1.5rem; cursor: pointer; background: none; border: none; }
         .cart-items-list { flex-grow: 1; overflow-y: auto; margin: 1rem 0; padding-right: 0.5rem; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px dashed #ebdcc5; padding-bottom: 0.5rem; }
-        .checkout-btn { background-color: var(--whatsapp); color: white; width: 100%; padding: 1rem; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
-        .checkout-btn:hover { background-color: var(--whatsapp-hover); }
+        .checkout-btn { background-color: var(--primary); color: white; width: 100%; padding: 1rem; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
+        .checkout-btn:hover { background-color: var(--primary-light); }
+
+        .success-box { max-width: 600px; background: var(--white); margin: 4rem auto; padding: 3rem 2rem; border-radius: 16px; border: 1px solid #ebdcc5; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; }
+        .success-icon { font-size: 4rem; color: var(--success); margin-bottom: 1rem; }
+        .order-id { font-weight: bold; color: var(--accent); background: #fdfaf4; padding: 0.5rem 1rem; border-radius: 6px; display: inline-block; margin: 1rem 0; font-family: monospace; font-size: 1.1rem; }
+        .receipt-summary { text-align: left; background: #faf8f5; border: 1px solid #ebdcc5; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; }
+        .receipt-row { display: flex; justify-content: space-between; border-bottom: 1px dashed #e8dfd7; padding: 0.5rem 0; font-size: 0.95rem; }
 
         footer { background-color: #1e1915; color: #a89e95; text-align: center; padding: 3rem 1.5rem; font-size: 0.95rem; border-top: 4px solid var(--primary); }
     </style>
 </head>
 <body>
-
     <div class="announcement-bar">✨ PURE TRADITIONAL ARTISAN CRAFTSMANSHIP SINCE 2000</div>
     
     <nav class="navbar">
@@ -101,7 +103,6 @@
             <button class="back-btn" onclick="returnToHome()">← Back to Categories</button>
         </div>
         <div class="container">
-            <!-- 9 Dynamic Standard Product Catalog Frames -->
             <div class="product-card" data-category="kasa"><img class="product-img" src="kasa.png"><div class="product-info"><div><h3>Pure Kasa Thali</h3><p>Ayurvedic traditional plate.</p></div><div><span class="price-tag">₹2600 /kg</span><select class="qty-select" id="qty-kasa"><option>1</option><option>2</option><option>3</option></select><button class="buy-btn" onclick="addToCart('Pure Kasa Thali', 2600, 'qty-kasa')">Add to Cart</button></div></div></div>
             <div class="product-card" data-category="kasa"><img class="product-img" src="bati.png"><div class="product-info"><div><h3>Pure Kasa Bati</h3><p>Handcrafted bronze katori.</p></div><div><span class="price-tag">₹2600 /kg</span><select class="qty-select" id="qty-bati"><option>1</option><option>2</option><option>3</option></select><button class="buy-btn" onclick="addToCart('Pure Kasa Bati', 2600, 'qty-bati')">Add to Cart</button></div></div></div>
             <div class="product-card" data-category="premium"><img class="product-img" src="steel.jpg"><div class="product-info"><div><h3>Stainless Steel Kadai</h3><p>Heavy duty cooking bottom.</p></div><div><span class="price-tag">₹850</span><select class="qty-select" id="qty-kadai"><option>1</option><option>2</option><option>3</option></select><button class="buy-btn" onclick="addToCart('Stainless Steel Kadai', 850, 'qty-kadai')">Add to Cart</button></div></div></div>
@@ -114,6 +115,21 @@
         </div>
     </div>
 
+    <!-- DIGITAL ORDER SUCCESS SCREEN -->
+    <div id="success-page-view">
+        <div class="success-box">
+            <div class="success-icon">✓</div>
+            <h2>Order Placed Successfully!</h2>
+            <p>Thank you for shopping with Potiva Store. Your order is processed natively.</p>
+            <div class="order-id" id="display-order-id">ORDER ID: #12345</div>
+            
+            <div class="receipt-summary" id="receipt-items-box">
+                <!-- Receipt elements insert dynamically -->
+            </div>
+            
+            <button class="checkout-btn" onclick="returnToHome()">Continue Shopping</button>
+        </div>
+    </div>
     <div id="cart-drawer" class="cart-drawer">
         <div class="cart-header">
             <h3>Shopping Cart</h3>
@@ -124,7 +140,7 @@
         </div>
         <div>
             <h4 style="display:flex; justify-content:space-between; margin-bottom:1rem;">Total: <span id="cart-total-price">₹0</span></h4>
-            <button class="checkout-btn" onclick="checkoutToWhatsApp()">Proceed to Checkout (WhatsApp)</button>
+            <button class="checkout-btn" onclick="processWebsiteOrder()">Place Order Now</button>
         </div>
     </div>
 
@@ -137,6 +153,7 @@
 
     function openCategoryPage(categoryName, categoryDisplayName) {
         document.getElementById("homepage-view").style.display = "none";
+        document.getElementById("success-page-view").style.display = "none";
         document.getElementById("category-page-view").style.display = "block";
         document.getElementById("current-page-title").innerText = categoryDisplayName;
         var cards = document.getElementsByClassName("product-card");
@@ -149,6 +166,7 @@
     function returnToHome() {
         document.getElementById("homepage-view").style.display = "block";
         document.getElementById("category-page-view").style.display = "none";
+        document.getElementById("success-page-view").style.display = "none";
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -200,16 +218,32 @@
         totalField.innerText = "₹" + total;
     }
 
-    function checkoutToWhatsApp() {
+    function processWebsiteOrder() {
         if(cart.length === 0) { alert("Please add items to your cart first!"); return; }
-        var message = "Hello Potiva Store, I want to place an order:\n\n";
+        
+        var randomId = "POT-" + Math.floor(100000 + Math.random() * 900000);
+        document.getElementById("display-order-id").innerText = "ORDER ID: #" + randomId;
+        
+        var receiptContainer = document.getElementById("receipt-items-box");
+        receiptContainer.innerHTML = "<h4>Receipt Summary:</h4><br>";
         var total = 0;
+        
         cart.forEach(item => {
-            message += `- ${item.name} (Qty: ${item.qty}) - ₹${item.price * item.qty}\n`;
-            total += (item.price * item.qty);
+            var cost = item.price * item.qty;
+            total += cost;
+            receiptContainer.innerHTML += `<div class="receipt-row"><span>${item.name} (x${item.qty})</span><span>₹${cost}</span></div>`;
         });
-        message += `\n*Total Order Amount: ₹${total}*`;
-        window.open("https://wa.me" + encodeURIComponent(message), "_blank");
+        
+        receiptContainer.innerHTML += `<div class="receipt-row" style="font-weight:bold; margin-top:1rem; border-top:2px solid #ebdcc5;"><span>Grand Total:</span><span>₹${total}</span></div>`;
+        
+        cart = [];
+        updateCartUI();
+        toggleCart(false);
+        
+        document.getElementById("homepage-view").style.display = "none";
+        document.getElementById("category-page-view").style.display = "none";
+        document.getElementById("success-page-view").style.display = "block";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     </script>
 </body>
