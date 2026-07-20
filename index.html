@@ -239,8 +239,11 @@
 
     <script>
     var cart = [];
-    var MY_UPI_ID = "8617565772@ptsbi"; 
+    
+    // Live account token node setup completed
+    var MY_UPI_ID = "s1onu872-1@oksbi"; 
     var MERCHANT_NAME = "Potiva Store";
+    
     var FORMSPREE_ID = "mrenkkpw"; 
     var SECRET_ADMIN_KEY = "POTIVAADMIN"; 
     var currentTrackingId = "";
@@ -316,13 +319,12 @@
         cart.forEach(item => total += (item.price * item.qty));
         document.getElementById("checkout-grand-total").innerText = "₹" + total;
         
-        // Clean URL Encoding format parameters setup
         var upiLinkRaw = `upi://pay?pa=${MY_UPI_ID}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${total}&cu=INR`;
         document.getElementById("live-upi-link").href = upiLinkRaw;
         
-        // Google Chart Official API integration for seamless instant rendering
-        var googleQRUrl = `https://googleapis.com{encodeURIComponent(upiLinkRaw)}`;
-        document.getElementById("live-upi-qr").src = googleQRUrl;
+        // Stable Universal Server QR Render Pipe
+        var clearQRUrl = `https://qrserver.com{encodeURIComponent(upiLinkRaw)}`;
+        document.getElementById("live-upi-qr").src = clearQRUrl;
         
         document.getElementById("homepage-view").style.display = "none";
         document.getElementById("category-page-view").style.display = "none";
