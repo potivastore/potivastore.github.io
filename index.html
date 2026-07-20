@@ -25,19 +25,18 @@
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; padding-bottom: 60px; }
-        /* Real Amazon-Style Double layer Nav Configuration Stylesheet */
         .amazon-navbar-main { background-color: var(--amazon-dark); color: var(--white); padding: 0.5rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; z-index: 100; position: sticky; top: 0; }
         .amz-logo-zone { font-family: 'Cinzel', serif; color: #f9933a; font-size: 1.4rem; font-weight: bold; cursor: pointer; text-decoration: none; display: flex; flex-direction: column; line-height: 1; }
         .amz-logo-zone span { font-size: 0.7rem; color: var(--white); font-family: sans-serif; letter-spacing: 1px; }
         
-        .amz-loc-box { display: flex; align-items: center; gap: 0.3rem; cursor: pointer; font-size: 0.75rem; color: #cccccc; line-height: 1.2; }
+        .amz-loc-box { display: flex; align-items: center; gap: 0.3rem; cursor: pointer; font-size: 0.75rem; color: #cccccc; line-height: 1.2; padding: 4px; border: 1px solid transparent; border-radius: 2px; }
+        .amz-loc-box:hover { border-color: var(--white); }
         .amz-loc-box strong { color: var(--white); font-size: 0.85rem; display: block; }
         
         .amz-search-bar { flex-grow: 1; max-width: 700px; display: flex; border-radius: 4px; overflow: hidden; background: white; height: 40px; }
         .amz-search-select { background: #f3f3f4; border: none; padding: 0 0.8rem; border-right: 1px solid #cccccc; font-size: 0.8rem; outline: none; cursor: pointer; }
         .amz-search-input { border: none; padding: 0 1rem; flex-grow: 1; outline: none; font-size: 0.95rem; }
         .amz-search-btn { background-color: #febd69; border: none; width: 45px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 1.1rem; }
-        .amz-search-btn:hover { background-color: #f3a847; }
         .amz-nav-right-links { display: flex; align-items: center; gap: 1.2rem; font-size: 0.75rem; }
         .amz-nav-link-item { color: var(--white); cursor: pointer; text-decoration: none; line-height: 1.3; }
         .amz-nav-link-item span { color: #cccccc; display: block; }
@@ -46,11 +45,17 @@
         .amz-cart-btn { display: flex; align-items: center; gap: 0.3rem; font-weight: bold; position: relative; cursor: pointer; font-size: 0.85rem; }
         .amz-cart-btn .count-badge { background-color: #f08804; color: var(--amazon-dark); font-size: 0.9rem; padding: 0.1rem 0.5rem; border-radius: 20px; font-weight: bold; }
 
-        /* Secondary Layer Amazon Navigation Sub-bar Stylesheet Node */
         .amazon-navbar-sub { background-color: var(--amazon-nav); color: var(--white); padding: 0.4rem 1rem; display: flex; gap: 1rem; font-size: 0.85rem; overflow-x: auto; white-space: nowrap; }
         .amazon-navbar-sub span { cursor: pointer; opacity: 0.9; }
         .amazon-navbar-sub span:hover { opacity: 1; text-decoration: underline; }
         .amazon-navbar-sub .bold-all { font-weight: bold; margin-right: 0.5rem; }
+        /* Amazon-Style Pop-up Location Modal UI CSS Box */
+        .amz-location-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 500; align-items: center; justify-content: center; }
+        .amz-location-modal-content { background: var(--white); padding: 2rem; border-radius: 8px; width: 90%; max-width: 440px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); animation: amzPop 0.2s ease-out; position: relative; text-align: left; }
+        @keyframes amzPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .close-loc-modal { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; background: none; border: none; color: var(--text-muted); }
+        .loc-modal-btn { background-color: #f7ca00; border: 1px solid #a88734; border-radius: 4px; padding: 0.5rem 1rem; font-weight: bold; cursor: pointer; width: 100%; margin-top: 1rem; }
+        .loc-modal-btn:hover { background-color: #f5b100; }
         header { background: linear-gradient(rgba(44, 23, 6, 0.85), rgba(44, 23, 6, 0.85)), url('https://unsplash.com') no-repeat center/cover; color: var(--white); text-align: center; padding: 5rem 1.5rem; border-bottom: 4px solid var(--accent); }
         header h1 { font-family: 'Cinzel', serif; font-size: 3.5rem; font-weight: 700; letter-spacing: 2px; margin-bottom: 0.5rem; }
         .legacy-tag { display: inline-block; border: 1px solid var(--accent-light); padding: 0.4rem 1.2rem; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; color: var(--accent-light); border-radius: 4px; }
@@ -81,7 +86,7 @@
         .cart-drawer { position: fixed; top: 0; right: -350px; width: 350px; height: 100%; background-color: var(--white); z-index: 200; box-shadow: -4px 0 15px rgba(0,0,0,0.2); transition: right 0.3s ease; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; }
         .cart-drawer.open { right: 0; }
         .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f5ece1; padding-bottom: 1rem; }
-        .close-cart { font-size: 1.5rem; cursor: pointer; background: none; border: none; }
+        .close-cart { font-size: 1.5rem; cursor: pointer; background: none; border: none; color: var(--text-muted); }
         .cart-items-list { flex-grow: 1; overflow-y: auto; margin: 1rem 0; padding-right: 0.5rem; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px dashed #ebdcc5; padding-bottom: 0.5rem; }
         .checkout-btn { background-color: var(--amazon-dark); color: white; width: 100%; padding: 1rem; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
@@ -103,34 +108,53 @@
 </head>
 <body>
 
-    <!-- 1st Layer: Main Amazon Header Grid System Structure layout -->
     <div class="amazon-navbar-main">
         <div class="amz-logo-zone" onclick="returnToHome()">Potiva<span>.in</span></div>
         
-        <div class="amz-loc-box">
-            📍 <div>Delivering to Berhampore 742101<br><strong>Update location</strong></div>
+        <!-- Updated Update Location clickable layout box panel frame -->
+        <div class="amz-loc-box" onclick="toggleLocationModal(true)">
+            📍 <div>Delivering to <span id="nav-display-city">Berhampore</span> <span id="nav-display-pin">742101</span><br><strong>Update location</strong></div>
         </div>
         
         <div class="amz-search-bar">
             <select class="amz-search-select"><option>All</option><option>Kasa</option><option>Metallic</option></select>
-            <input type="text" class="amz-search-input" placeholder="Search potiva.in items here...">
+            <input type="text" class="amz-search-input" placeholder="Search Amazon.in items here...">
             <button class="amz-search-btn">🔍</button>
         </div>
         
         <div class="amz-nav-right-links">
             <div class="amz-nav-link-item">🇮🇳 <strong>EN ▾</strong></div>
             <div class="amz-nav-link-item"><span>Hello, sign in</span><strong>Account & Lists ▾</strong></div>
-            <div class="amz-nav-link-item" onclick="openTrackingView()"><span>Track</span><strong>Orders</strong></div>
+            <div class="amz-nav-link-item" onclick="openTrackingView()"><span>Returns</span><strong>& Orders</strong></div>
             <div class="amz-cart-btn" onclick="toggleCart(true)">
                 🛒 Cart <span class="count-badge" id="global-cart-count">0</span>
             </div>
         </div>
     </div>
 
-    <!-- 2nd Layer: Sub navbar category navigation list links row structure -->
     <div class="amazon-navbar-sub">
-        <span class="bold-all" onclick="returnToHome()"></span>
-        
+        <span class="bold-all" onclick="returnToHome()">☰ All</span>
+        <span>Fresh</span><span>MX Player</span><span>Sell</span><span>Bestsellers</span><span>Today's Deals</span><span>Mobiles</span><span>New Releases</span><span>Prime ▾</span><span>Amazon Pay</span><span>Electronics</span><span>Home & Kitchen</span><span>Fashion</span>
+    </div>
+
+    <!-- NATIVE AMAZON-STYLE LOCATION UPDATE POP-UP CONTAINER DIALOG MODAL -->
+    <div class="amz-location-modal" id="location-popup-dialog">
+        <div class="amz-location-modal-content">
+            <button class="close-loc-modal" onclick="toggleLocationModal(false)">×</button>
+            <h3 style="margin-bottom:1rem; color:var(--amazon-dark);">Choose your delivery location</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.5rem;">Enter an Indian pincode to refresh your traditional utensils delivery mapping logs natively:</p>
+            
+            <div class="form-group">
+                <label>Enter Pincode</label>
+                <input type="number" class="form-control" id="modal-pin-input" placeholder="742101">
+            </div>
+            <div class="form-group">
+                <label>City / Area Name</label>
+                <input type="text" class="form-control" id="modal-city-input" placeholder="Berhampore">
+            </div>
+            
+            <button class="loc-modal-btn" onclick="saveUpdatedLocation()">Apply New Location</button>
+        </div>
     </div>
     <!-- HOMEPAGE SECTION -->
     <div id="homepage-view">
@@ -173,10 +197,9 @@
             <div class="product-card" data-category="daily"><img class="product-img" src="khunti.jpg"><div class="product-info"><div><h3>Authentic Forged Khunti</h3><p>Flat rugged cooking spatula.</p></div><div><span class="price-tag">₹160</span><select class="qty-select" id="qty-khunti"><option>1</option><option>2</option><option>3</option></select><button class="buy-btn" onclick="addToCart('Authentic Forged Khunti', 160, 'qty-khunti')">Add to Cart</button></div></div></div>
         </div>
     </div>
-    <!-- NATIVE AMAZON-STYLE CHECKOUT PAGE -->
     <div id="checkout-page-view">
         <div class="category-header-bar" style="background-color: var(--amazon-dark);">
-            <h2> Secure Checkout</h2>
+            <h2>Amazon-Style Secure Checkout</h2>
             <button class="back-btn" onclick="returnToHome()">← Cancel & Go Back</button>
         </div>
         <form id="native-checkout-form" action="https://formspree.io" method="POST" onsubmit="handleFormSubmission(event)">
@@ -210,7 +233,6 @@
             </div>
         </form>
     </div>
-    <!-- CONTROLLED LIVE TRACKING VIEW -->
     <div id="tracking-page-view">
         <div class="success-box" style="margin-top:2rem; max-width:700px;">
             <div class="form-section-title">📦 Track Your Amazon-Style Order</div>
@@ -241,7 +263,6 @@
         </div>
     </div>
 
-    <!-- DIGITAL ORDER SUCCESS SCREEN -->
     <div id="success-page-view">
         <div class="success-box">
             <div class="success-icon">✓</div>
@@ -252,24 +273,18 @@
             <button class="checkout-btn" onclick="returnToHome()">Continue Shopping</button>
         </div>
     </div>
+
     <div id="cart-drawer" class="cart-drawer">
-        <div class="cart-header">
-            <h3>Shopping Cart</h3>
-            <button class="close-cart" onclick="toggleCart(false)">×</button>
-        </div>
-        <div class="cart-items-list" id="cart-items-container">
-            <p style="color:var(--text-muted); text-align:center; margin-top:2rem;">Your cart is empty.</p>
-        </div>
+        <div class="cart-header"><h3>Shopping Cart</h3><button class="close-cart" onclick="toggleCart(false)">×</button></div>
+        <div class="cart-items-list" id="cart-items-container"><p style="color:var(--text-muted); text-align:center; margin-top:2rem;">Your cart is empty.</p></div>
         <div>
             <h4 style="display:flex; justify-content:space-between; margin-bottom:1rem;">Total: <span id="cart-total-price">₹0</span></h4>
             <button class="checkout-btn" onclick="navigateToCheckout()">Proceed to Checkout</button>
         </div>
     </div>
 
-    <footer>
-        <p><strong>Potiva Store</strong> &copy; 2000 - 2026. Handcrafted Traditional Premium Utensils.</p>
-    </footer>
-
+    <footer><p><strong>Potiva Store</strong> &copy; 2000 - 2026. Handcrafted Traditional Premium Utensils.</p></footer>
+    
     <script>
     var cart = [];
     var MY_UPI_ID = "s1onu872-1@oksbi"; 
@@ -277,6 +292,29 @@
     var FORMSPREE_ID = "mrenkkpw"; 
     var SECRET_ADMIN_KEY = "POTIVAADMIN"; 
     var currentTrackingId = "";
+
+    function toggleLocationModal(isOpen) {
+        document.getElementById("location-popup-dialog").style.display = isOpen ? "flex" : "none";
+        if(isOpen) {
+            document.getElementById("modal-pin-input").value = document.getElementById("nav-display-pin").innerText;
+            document.getElementById("modal-city-input").value = document.getElementById("nav-display-city").innerText;
+        }
+    }
+
+    function saveUpdatedLocation() {
+        var newPin = document.getElementById("modal-pin-input").value.trim();
+        var newCity = document.getElementById("modal-city-input").value.trim();
+        if(!newPin || !newCity) { alert("Please fill both Pincode and City fields!"); return; }
+        
+        document.getElementById("nav-display-pin").innerText = newPin;
+        document.getElementById("nav-display-city").innerText = newCity;
+        
+        document.getElementById("cust-pin").value = newPin;
+        document.getElementById("cust-address").value = "Near " + newCity + ", ";
+        
+        toggleLocationModal(false);
+    }
+
     function openCategoryPage(categoryName, categoryDisplayName) {
         document.getElementById("homepage-view").style.display = "none";
         document.getElementById("success-page-view").style.display = "none";
@@ -293,7 +331,6 @@
 
     function returnToHome() {
         document.getElementById("homepage-view").style.display = "block";
-        document.getElementById("category-page-view").style.none;
         document.getElementById("category-page-view").style.display = "none";
         document.getElementById("checkout-page-view").style.display = "none";
         document.getElementById("success-page-view").style.display = "none";
