@@ -3,195 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Potiva Store | Traditional Utensils & Gifts</title>
+    <title>Potiva Store | Premium Traditional Utensils</title>
+    <!-- Google Fonts for Luxury Branding -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background-color: #fdfaf4; color: #333; }
-        header { background-color: #724216; color: white; text-align: center; padding: 3rem 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        header h1 { margin: 0; font-size: 2.8rem; font-weight: 700; letter-spacing: 1px; }
-        header p { margin: 0.5rem 0 0 0; font-size: 1.2rem; opacity: 0.9; font-style: italic; }
-        .section-title { text-align: center; margin: 3rem 0 1.5rem 0; color: #724216; font-size: 1.8rem; font-weight: 600; width: 100%; position: relative; }
-        .section-title::after { content: ''; display: block; width: 60px; height: 3px; background: #b8860b; margin: 8px auto 0 auto; border-radius: 2px; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem 3rem 1rem; display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; }
-        .product-card { background: white; border: 1px solid #ebdcc5; border-radius: 12px; width: 290px; overflow: hidden; box-shadow: 0 6px 12px rgba(114,66,22,0.04); text-align: center; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.3s, box-shadow 0.3s; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(114,66,22,0.1); }
-        .product-img { width: 100%; height: 200px; object-fit: cover; border-bottom: 1px solid #ebdcc5; background-color: #f5ece1; }
-        .product-info { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .product-card h3 { color: #724216; margin-top: 0; font-size: 1.3rem; margin-bottom: 0.5rem; }
-        .product-card p { font-size: 0.95rem; color: #666; line-height: 1.5; margin-bottom: 1.5rem; }
-        .price-tag { font-size: 1.4rem; font-weight: 700; color: #b8860b; margin-bottom: 1rem; display: block; line-height: 1.2; }
-        .buy-btn { background-color: #25D366; color: white; text-align: center; padding: 0.8rem 1.5rem; border: none; border-radius: 6px; font-weight: bold; text-decoration: none; display: block; font-size: 1rem; transition: background-color 0.2s; box-shadow: 0 3px 6px rgba(37,211,102,0.2); cursor: pointer; }
-        .buy-btn:hover { background-color: #128C7E; }
-        footer { background-color: #222; color: #bbb; text-align: center; padding: 2rem 1rem; font-size: 0.95rem; margin-top: 4rem; }
+        :root {
+            --primary: #5c320f;
+            --primary-light: #724216;
+            --accent: #b8860b;
+            --accent-light: #dfb13c;
+            --bg: #fbf9f4;
+            --text: #2c2520;
+            --text-muted: #61554d;
+            --white: #ffffff;
+            --whatsapp: #25D366;
+            --whatsapp-hover: #128C7E;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            line-height: 1.6;
+        }
+
+        /* Top Announcement Bar */
+        .announcement-bar {
+            background-color: var(--accent);
+            color: var(--white);
+            text-align: center;
+            padding: 0.6rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Hero Header */
+        header { 
+            background: linear-gradient(rgba(44, 23, 6, 0.82), rgba(92, 50, 15, 0.92)), 
+                        url('https://unsplash.com') no-repeat center/cover;
+            color: var(--white); 
+            text-align: center; 
+            padding: 5rem 1.5rem; 
+            border-bottom: 4px solid var(--accent);
+        }
+
+        header h1 { 
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem; 
+            font-weight: 700; 
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .legacy-tag {
+            display: inline-block;
+            border: 1px solid var(--accent-light);
+            padding: 0.4rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            color: var(--accent-light);
+            border-radius: 4px;
+        }
+
+        header p { 
+            font-size: 1.2rem; 
+            max-width: 750px;
+            margin: 0 auto;
+            opacity: 0.95; 
+            font-style: italic;
+        }
+
+        .section-title { 
+            text-align: center; 
+            margin: 4rem 0 2rem 0; 
+            color: var(--primary); 
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem; 
+            font-weight: 700;
+        }
+
+        .section-title::after { 
+            content: ''; 
+            display: block; 
+            width: 70px; 
+            height: 3px; 
+            background: var(--accent); 
+            margin: 10px auto 0 auto; 
+            border-radius: 2px; 
+        }
+
+        /* Homepage Categories Grid Blocks */
+        .category-grid {
+            max-width: 1100px;
+            margin: 0 auto 4rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            background: var(--white);
+            border: 2px solid #ebdcc5;
+            border-radius: 16px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(114,66,22,0.04);
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover, .category-card.active {
+            border-color: var(--accent);
+            background-color: var(--primary);
+            color: var(--white);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(114,66,22,0.15);
+        }
+
+        .category-card h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .category-card p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        .category-card.active p {
+            color: #fff;
+            opacity: 0.9;
+        }
+
+        /* Products Grid Setup (Hidden by Default) */
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 1rem 4rem 1rem; 
+            display: none; /* JavaScript will make this flex later */
+            flex-wrap: wrap; 
+            gap: 2rem; 
+            justify-content: center; 
+        }
+
+        .product-card { 
+            background: var(--white); 
+            border: 1px solid #ebdcc5; 
+            border-radius: 16px; 
+            width: 290px; 
+            overflow: hidden; 
+            box-shadow: 0 6px 12px rgba(114,66,22,0.04); 
+            text-align: center; 
+            display: none; /* Controlled dynamically */
+            flex-direction: column; 
+            justify-content: space-between; 
+            transition: transform 0.3s, box-shadow 0.3s; 
+        }
+
+        .product-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 12px 24px rgba(114,66,22,0.09); 
+        }
+
+        .product-img { 
+            width: 100%; 
+            height: 220px; 
+            object-fit: cover; 
+            border-bottom: 1px solid #ebdcc5; 
+            background-color: #f5ece1; 
+        }
+
+        .product-info { 
+            padding: 1.5rem; 
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+        }
+
+        .product-card h3 { 
+            color: var(--primary); 
+            margin-top: 0; 
+            font-size: 1.3rem; 
+            margin-bottom: 0.5rem; 
+        }
+
+        .product-card.active-card h3 {
+            color: var(--primary);
+        }
+
+        .product-card p { 
+            font-size: 0.95rem; 
+            color: var(--text-muted); 
+            line-height: 1.5; 
+            margin-bottom: 1.5rem; 
+        }
+
+        .price-tag { 
+            font-size: 1.4rem; 
+            font-weight: 700; 
+            color: var(--accent); 
+            margin-bottom: 1.2rem; 
+            display: block; 
+            line-height: 1.2; 
+        }
+        
+        .btn-box { display: flex; flex-direction: column; gap: 0.5rem; }
+        
+        .buy-btn { 
+            background-color: var(--whatsapp); 
+            color: var(--white); 
+            text-align: center; 
+            padding: 0.8rem 1rem; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            text-decoration: none; 
+            display: block; 
+            font-size: 1rem; 
+            box-shadow: 0 3px 6px rgba(37,211,102,0.15); 
+        }
+
+        .buy-btn:hover { background-color: var(--whatsapp-hover); }
+        
+        .qr-btn { 
+            background-color: var(--primary-light); 
+            color: var(--white); 
+            text-align: center; 
+            padding: 0.5rem 1rem; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: 600; 
+            text-decoration: none; 
+            display: block; 
+            font-size: 0.85rem; 
+            cursor: pointer; 
+        }
+
+        /* QR Modal Screen */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
+        .modal-content { background-color: var(--white); padding: 2rem; border-radius: 12px; text-align: center; max-width: 90%; width: 320px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        .modal-content img { width: 200px; height: 200px; margin: 1rem 0; }
+        .close-btn { background-color: #333; color: var(--white); border: none; padding: 0.5rem 1.5rem; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 1rem; }
+
+        footer { background-color: #1e1915; color: #a89e95; text-align: center; padding: 4rem 1.5rem; font-size: 0.95rem; margin-top: 6rem; border-top: 4px solid var(--primary); }
         footer p { margin: 0.4rem 0; }
-        footer strong { color: white; }
+        footer strong { color: var(--white); }
+        .footer-highlight { color: var(--accent-light); font-weight: 600; }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 2.3rem; }
+            header p { font-size: 1rem; }
+        }
     </style>
 </head>
 <body>
 
+<div class="announcement-bar">
+    ✨ PURE TRADITIONAL ARTISAN CRAFTSMANSHIP SINCE 2000
+</div>
+
 <header>
+    <div class="legacy-tag">Celebrating 26 Years of Trust</div>
     <h1>Potiva Store</h1>
-    <p>Authentic Kasa, Pitol, Steel, Aluminium Utensils & Traditional Gift Items</p>
+    <p>Humare 26 saal purane vishwas ke saath khareedye sabse behtareen paramparik bartan.</p>
 </header>
 
-<div class="section-title">Premium Kitchen Utilities</div>
-<div class="container">
-    <!-- Item 1: Kasa -->
-    <div class="product-card">
-        <img class="product-img" src="kasa.png" alt="Pure Kasa Thali Set">
-        <div class="product-info">
-            <div>
-                <h3>Pure Kasa (Bronze) Thali</h3>
-                <p>Traditional handcrafted ayurvedic bronze plate set. Perfect for healthy dining and premium family use.</p>
-            </div>
-            <div>
-                <span class="price-tag">Starting From ₹2,600<br><span style="font-size:1.1rem; font-weight:normal; color:#666;">per/Kg</span></span>
-                <button onclick="openWA('Pure Kasa Thali')" class="buy-btn">Order on WhatsApp</button>
-            </div>
-        </div>
-    </div>
+<div class="section-title" id="main-title">Select a Category</div>
 
-    <!-- Item 2: Kasa Bati -->
-    <div class="product-card">
-        <img class="product-img" src="bati.png" alt="Pure Kasa Bati Bowl">
-        <div class="product-info">
-            <div>
-                <h3>Pure Kasa (Bronze) Bati</h3>
-                <p>Authentic premium handcrafted bronze bowl. Traditional design known for daily metabolic wellness and pure longevity benefits.</p>
-            </div>
-            <div>
-                <span class="price-tag">Starting From ₹2,600<br><span style="font-size:1.1rem; font-weight:normal; color:#666;">per/Kg</span></span>
-                <button onclick="openWA('Pure Kasa Bati')" class="buy-btn">Order on WhatsApp</button>
-            </div>
-        </div>
+<!-- Main Homepage Categories Grid -->
+<div class="category-grid" id="cat-grid">
+    <div class="category-card" onclick="openCategory('kasa', this)">
+        <h2>Kasa Collection</h2>
+        <p>Pure Bronze items known for absolute ayurvedic health benefits.</p>
     </div>
-
-    <!-- Item 3: Steel -->
-    <div class="product-card">
-        <img class="product-img" src="steel.jpg" alt="Stainless Steel Pans">
-        <div class="product-info">
-            <div>
-                <h3>Stainless Steel Kadai</h3>
-                <p>Thick-bottom, rust-proof commercial stainless steel cooking pan made for daily rough kitchen use.</p>
-            </div>
-            <div>
-                <span class="price-tag">₹850</span>
-                <button onclick="openWA('Stainless Steel Kadai')" class="buy-btn">Order on WhatsApp</button>
-            </div>
-        </div>
+    <div class="category-card" onclick="openCategory('premium', this)">
+        <h2>Premium Metallic</h2>
+        <p>Heavy duty commercial grade Stainless Steel and Aluminium ware.</p>
     </div>
-
-    <!-- Item 4: Aluminium -->
-    <div class="product-card">
-        <img class="product-img" src="aluminium.jpg" alt="Aluminium Pots">
-        <div class="product-info">
-            <div>
-                <h3>Aluminium Dekchi / Handi</h3>
-                <p>High-grade heavy gauge aluminium pot that ensures balanced heating for cooking larger meals smoothly.</p>
-            </div>
-            <div>
-                <span class="price-tag">₹650</span>
-                <button onclick="openWA('Aluminium Dekchi')" class="buy-btn">Order on WhatsApp</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Item 5: Tiffin Box -->
-    <div class="product-card">
-        <img class="product-img" src="tiffin.jpg" alt="Tiffin Box">
-        <div class="product-info">
-            <div>
-                <h3>Premium Multi-Tier Tiffin Box</h3>
-                <p>Heavy-duty, secure leak-proof multi-layer carrier box. Keeps food warm and fresh for office or travel meals.</p>
-            </div>
-            <div>
-                <span class="price-tag">₹450</span>
-                <button onclick="openWA('Multi Tier Tiffin Box')" class="buy-btn">Order on WhatsApp</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Item 6: Glass -->
-    <div class="product-card">
-        <img class="product-img" src="glass.jpg" alt="Metal Glass Set">
-        <div class="product-info">
-            <div>
-                <h3>Traditional Metal Glass Set</h3>
-                <p>Elegant design with a weighted base. Excellent durability and health benefits for pure daily water consumption.</p>
-            </div>
-            <div>
-                <span class="price-tag">₹280<br><span style="font-size:1.1rem; font-weight:normal; color:#666;">per/Piece</span></span>
-                <button onclick="openWA('Traditional Metal Glass Set')" class="buy-btn">Order on WhatsApp</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Item 7: Bowl -->
-    <div class="product-card">
-        <img class="product-img" src="bowl.jpg" alt="Traditional Serving Bowl">
-        <div class="product-info">
-            <div>
-                <h3>Premium Traditional Serving Bowl</h3>
-                <p>Polished deep storage and serving accessory. Suited for presenting authentic traditional curries and side dishes.</p>
-            </div>
-            <div>
-                <span class="price-tag">₹180</span>
-                <button onclick="openWA('Premium Serving Bowl')" class="buy-btn">Order on WhatsApp</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Item 8: Hata -->
-    <div class="product-card">
-        <img class="product-img" src="hata.jpg" alt="Heavy Cooking Hata Ladle">
-        <div class="product-info">
-            <div>
-                <h3>Heavy Cooking Hata (Ladle)</h3>
-                <p>Thick-gauge long-handle ladle forged for balanced handling. Ideal for smooth serving of dals, stews, and soups.</p>
-            </div>
-            <div>
-                <span class="price-tag">₹150</span>
-                <button onclick="openWA('Heavy Cooking Hata')" class="buy-btn">Order on WhatsApp</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Item 9: Khunti -->
-    <div class="product-card">
-        <img class="product-img" src="khunti.jpg" alt="Authentic Forged Khunti Spatula">
-        <div class="product-info">
-            <div>
-                <h3>Authentic Forged Khunti (Spatula)</h3>
-                <p>Classic sturdy kitchen spatula designed for heavy frying and stirring tasks. Engineered with a flat broad edge.</p>
-            </div>
-            <div>
-                <span class="price-tag">₹160</span>
-                <button onclick="openWA('Forged Khunti')" class="buy-btn">Order on WhatsApp</button>
-            </div>
-        </div>
+    <div class="category-card" onclick="openCategory('daily', this)">
+        <h2>Daily Kitchen tools</h2>
+        <p>Handcrafted essential accessories like Glasses, Bowls, Spatulas.</p>
     </div>
 </div>
 
-<footer>
-    <p><strong>Potiva Store</strong> &copy; 2026. All Rights Reserved.</p>
-    <p>Contact Us: <strong>+91 8617565772</strong> | Tap any item above to order directly via WhatsApp!</p>
-</footer>
-
-<script>
-function openWA(itemName) {
-    var phone = "918617565772";
-    var text = encodeURIComponent("Hello Potiva Store, I want to order the " + itemName);
+<!-- Product Section Area (Hidden until clicked) -->
+<div class="container" id="product-container">
     
-    // Attempt standard web API route first
-    var url = "https://whatsapp.com" + phone + "&text=" + text;
-    
-    // Fallback detection logic for rigid mobile views
-    if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
-        url = "whatsapp://send?phone=" + phone + "&text=" + text;
-    }
-    
-    window.location.href = url;
-}
-</script>
-
-</body>
-</html>
+    <!-- Category: Kasa -->
