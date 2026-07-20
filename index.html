@@ -31,7 +31,7 @@
         .category-card:hover { border-color: var(--accent); background-color: var(--primary); color: var(--white); transform: translateY(-5px); }
         .category-card h2 { font-family: 'Cinzel', serif; font-size: 1.6rem; margin-bottom: 0.8rem; }
 
-        #category-page-view, #success-page-view { display: none; width: 100%; }
+        #category-page-view, #checkout-page-view, #success-page-view { display: none; width: 100%; }
         .category-header-bar { background-color: var(--primary-light); color: var(--white); padding: 2rem 1rem; text-align: center; }
         .category-header-bar h2 { font-family: 'Cinzel', serif; font-size: 2rem; }
         .back-btn { display: inline-block; margin-top: 0.5rem; background: none; border: 1px solid var(--accent-light); color: var(--accent-light); padding: 0.4rem 1.2rem; border-radius: 4px; cursor: pointer; font-weight: 600; }
@@ -55,6 +55,16 @@
         .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px dashed #ebdcc5; padding-bottom: 0.5rem; }
         .checkout-btn { background-color: var(--primary); color: white; width: 100%; padding: 1rem; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
         .checkout-btn:hover { background-color: var(--primary-light); }
+
+        /* Amazon Checkout Page Forms & Layout */
+        .checkout-flex { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .checkout-form-panel { background: var(--white); border: 1px solid #ebdcc5; padding: 2rem; border-radius: 12px; }
+        .form-section-title { font-family: 'Cinzel', serif; color: var(--primary); font-size: 1.3rem; margin-bottom: 1.5rem; border-bottom: 2px solid #ebdcc5; padding-bottom: 0.5rem; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text-muted); }
+        .form-control { width: 100%; padding: 0.75rem; border: 1px solid #ebdcc5; border-radius: 6px; font-family: inherit; font-size: 0.95rem; }
+        .radio-group { display: flex; flex-direction: column; gap: 0.8rem; }
+        .radio-label { display: flex; align-items: center; gap: 0.6rem; background: #faf8f5; border: 1px solid #ebdcc5; padding: 0.8rem; border-radius: 6px; cursor: pointer; font-weight: 500; }
 
         .success-box { max-width: 600px; background: var(--white); margin: 4rem auto; padding: 3rem 2rem; border-radius: 16px; border: 1px solid #ebdcc5; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; }
         .success-icon { font-size: 4rem; color: var(--success); margin-bottom: 1rem; }
@@ -96,6 +106,7 @@
             </div>
         </div>
     </div>
+
     <!-- CATEGORY ITEMS SCREEN -->
     <div id="category-page-view">
         <div class="category-header-bar">
@@ -114,6 +125,60 @@
             <div class="product-card" data-category="daily"><img class="product-img" src="khunti.jpg"><div class="product-info"><div><h3>Authentic Forged Khunti</h3><p>Flat rugged cooking spatula.</p></div><div><span class="price-tag">₹160</span><select class="qty-select" id="qty-khunti"><option>1</option><option>2</option><option>3</option></select><button class="buy-btn" onclick="addToCart('Authentic Forged Khunti', 160, 'qty-khunti')">Add to Cart</button></div></div></div>
         </div>
     </div>
+    <!-- NATIVE AMAZON-STYLE CHECKOUT PAGE -->
+    <div id="checkout-page-view">
+        <div class="category-header-bar" style="background-color: var(--primary);">
+            <h2>Amazon-Style Secure Checkout</h2>
+            <button class="back-btn" onclick="returnToHome()">← Cancel & Go Back</button>
+        </div>
+        
+        <div class="checkout-flex">
+            <!-- Left Panel: Delivery Details Address Config Form -->
+            <div class="checkout-form-panel">
+                <div class="form-section-title">1. Delivery Address Location</div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" class="form-control" id="cust-name" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Mobile Number (For Delivery Updates)</label>
+                    <input type="tel" class="form-control" id="cust-phone" placeholder="9876543210">
+                </div>
+                <div class="form-group">
+                    <label>Pincode</label>
+                    <input type="number" class="form-control" id="cust-pin" placeholder="742101">
+                </div>
+                <div class="form-group">
+                    <label>Flat, House no., Building, Company, Apartment, Area, Street</label>
+                    <input type="text" class="form-control" id="cust-address" placeholder="12/A Baker Street, Near Station">
+                </div>
+            </div>
+
+            <!-- Right Panel: Payment Selection Framework -->
+            <div class="checkout-form-panel">
+                <div class="form-section-title">2. Select Payment Method</div>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="pay-method" value="COD" checked>
+                        <span>📦 Pay on Delivery (Cash/UPI at your doorstep)</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="pay-method" value="UPI">
+                        <span>📱 Instant UPI / Net Banking Simulation</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="pay-method" value="CARD">
+                        <span>💳 Credit / Debit Card Gateway Framework</span>
+                    </label>
+                </div>
+                
+                <div style="margin-top: 2rem; padding-top: 1rem; border-top: 2px solid #ebdcc5;">
+                    <h3 style="display:flex; justify-content:space-between; margin-bottom:1.5rem;">Order Total: <span id="checkout-grand-total">₹0</span></h3>
+                    <button class="buy-btn" style="padding:1rem; font-size:1.1rem;" onclick="validateAndProcessOrder()">Confirm & Place Your Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- DIGITAL ORDER SUCCESS SCREEN -->
     <div id="success-page-view">
@@ -124,7 +189,7 @@
             <div class="order-id" id="display-order-id">ORDER ID: #12345</div>
             
             <div class="receipt-summary" id="receipt-items-box">
-                <!-- Receipt elements insert dynamically -->
+                <!-- Receipt structures insert dynamically here -->
             </div>
             
             <button class="checkout-btn" onclick="returnToHome()">Continue Shopping</button>
@@ -140,7 +205,7 @@
         </div>
         <div>
             <h4 style="display:flex; justify-content:space-between; margin-bottom:1rem;">Total: <span id="cart-total-price">₹0</span></h4>
-            <button class="checkout-btn" onclick="processWebsiteOrder()">Place Order Now</button>
+            <button class="checkout-btn" onclick="navigateToCheckout()">Proceed to Checkout</button>
         </div>
     </div>
 
@@ -154,6 +219,7 @@
     function openCategoryPage(categoryName, categoryDisplayName) {
         document.getElementById("homepage-view").style.display = "none";
         document.getElementById("success-page-view").style.display = "none";
+        document.getElementById("checkout-page-view").style.display = "none";
         document.getElementById("category-page-view").style.display = "block";
         document.getElementById("current-page-title").innerText = categoryDisplayName;
         var cards = document.getElementsByClassName("product-card");
@@ -166,6 +232,7 @@
     function returnToHome() {
         document.getElementById("homepage-view").style.display = "block";
         document.getElementById("category-page-view").style.display = "none";
+        document.getElementById("checkout-page-view").style.display = "none";
         document.getElementById("success-page-view").style.display = "none";
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -218,30 +285,62 @@
         totalField.innerText = "₹" + total;
     }
 
-    function processWebsiteOrder() {
-        if(cart.length === 0) { alert("Please add items to your cart first!"); return; }
+    function navigateToCheckout() {
+        if(cart.length === 0) { alert("Your cart is empty!"); return; }
+        toggleCart(false);
+        
+        var total = 0;
+        cart.forEach(item => total += (item.price * item.qty));
+        document.getElementById("checkout-grand-total").innerText = "₹" + total;
+        
+        document.getElementById("homepage-view").style.display = "none";
+        document.getElementById("category-page-view").style.display = "none";
+        document.getElementById("success-page-view").style.display = "none";
+        document.getElementById("checkout-page-view").style.display = "block";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function validateAndProcessOrder() {
+        var name = document.getElementById("cust-name").value.trim();
+        var phone = document.getElementById("cust-phone").value.trim();
+        var pin = document.getElementById("cust-pin").value.trim();
+        var address = document.getElementById("cust-address").value.trim();
+        var payment = document.querySelector('input[name="pay-method"]:checked').value;
+        
+        if(!name || !phone || !pin || !address) {
+            alert("Please fill out all missing delivery location fields!");
+            return;
+        }
         
         var randomId = "POT-" + Math.floor(100000 + Math.random() * 900000);
         document.getElementById("display-order-id").innerText = "ORDER ID: #" + randomId;
         
         var receiptContainer = document.getElementById("receipt-items-box");
-        receiptContainer.innerHTML = "<h4>Receipt Summary:</h4><br>";
-        var total = 0;
+        receiptContainer.innerHTML = "<h4>Receipt Details:</h4><br>";
         
+        receiptContainer.innerHTML += `<div class="receipt-row" style="color:var(--text-muted);"><span>Ship To:</span><span><strong>${name}</strong> (${phone}), Pincode: ${pin}</span></div>`;
+        receiptContainer.innerHTML += `<div class="receipt-row" style="color:var(--text-muted); margin-bottom:1rem;"><span>Address:</span><span>${address}</span></div>`;
+        receiptContainer.innerHTML += `<div class="receipt-row" style="color:var(--accent); font-weight:bold; margin-bottom:1rem;"><span>Payment Method:</span><span>${payment}</span></div>`;
+        
+        var total = 0;
         cart.forEach(item => {
             var cost = item.price * item.qty;
             total += cost;
             receiptContainer.innerHTML += `<div class="receipt-row"><span>${item.name} (x${item.qty})</span><span>₹${cost}</span></div>`;
         });
         
-        receiptContainer.innerHTML += `<div class="receipt-row" style="font-weight:bold; margin-top:1rem; border-top:2px solid #ebdcc5;"><span>Grand Total:</span><span>₹${total}</span></div>`;
+        receiptContainer.innerHTML += `<div class="receipt-row" style="font-weight:bold; margin-top:1rem; border-top:2px solid #ebdcc5; font-size:1.1rem;"><span>Grand Total Paid:</span><span>₹${total}</span></div>`;
         
         cart = [];
         updateCartUI();
-        toggleCart(false);
         
-        document.getElementById("homepage-view").style.display = "none";
-        document.getElementById("category-page-view").style.display = "none";
+        // Reset address inputs
+        document.getElementById("cust-name").value = "";
+        document.getElementById("cust-phone").value = "";
+        document.getElementById("cust-pin").value = "";
+        document.getElementById("cust-address").value = "";
+        
+        document.getElementById("checkout-page-view").style.display = "none";
         document.getElementById("success-page-view").style.display = "block";
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
