@@ -1,15 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potiva Store | Premium Traditional Utensils</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://jsdelivr.net"></script>
     <style>
-        :root { --primary: #5c320f; --primary-light: #724216; --accent: #b8860b; --accent-light: #dfb13c; --bg: #fbf9f4; --text: #2c2520; --text-muted: #61554d; --white: #ffffff; --success: #2e7d32; }
+        :root { 
+            --amazon-dark: #131921; 
+            --amazon-nav: #232f3e; 
+            --amazon-orange: #f0c14b; 
+            --amazon-orange-hover: #ddb347;
+            --primary: #5c320f; 
+            --primary-light: #724216; 
+            --accent: #b8860b; 
+            --bg: #fbf9f4; 
+            --text: #2c2520; 
+            --text-muted: #61554d; 
+            --white: #ffffff; 
+            --success: #2e7d32; 
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; padding-bottom: 60px; }
-        .announcement-bar { background-color: var(--accent); color: var(--white); text-align: center; padding: 0.6rem 1rem; font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+        /* Real Amazon-Style Double layer Nav Configuration Stylesheet */
+        .amazon-navbar-main { background-color: var(--amazon-dark); color: var(--white); padding: 0.5rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; z-index: 100; position: sticky; top: 0; }
+        .amz-logo-zone { font-family: 'Cinzel', serif; color: #f9933a; font-size: 1.4rem; font-weight: bold; cursor: pointer; text-decoration: none; display: flex; flex-direction: column; line-height: 1; }
+        .amz-logo-zone span { font-size: 0.7rem; color: var(--white); font-family: sans-serif; letter-spacing: 1px; }
         
-        .navbar { background-color: var(--primary); padding: 1rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .nav-logo { font-family: 'Cinzel', serif; color: var(--white); font-size: 1.5rem; font-weight: bold; cursor: pointer; }
-        .nav-links { display: flex; gap: 1rem; align-items: center; }
-        .track-nav-btn { background: none; border: 1px solid var(--accent-light); color: var(--accent-light); padding: 0.4rem 0.8rem; border-radius: 4px; font-weight: 600; cursor: pointer; }
-        .cart-icon-btn { background: none; border: none; color: var(--white); font-size: 1.2rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
-        .cart-count { background-color: var(--accent); color: var(--white); padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.9rem; }
+        .amz-loc-box { display: flex; align-items: center; gap: 0.3rem; cursor: pointer; font-size: 0.75rem; color: #cccccc; line-height: 1.2; }
+        .amz-loc-box strong { color: var(--white); font-size: 0.85rem; display: block; }
+        
+        .amz-search-bar { flex-grow: 1; max-width: 700px; display: flex; border-radius: 4px; overflow: hidden; background: white; height: 40px; }
+        .amz-search-select { background: #f3f3f4; border: none; padding: 0 0.8rem; border-right: 1px solid #cccccc; font-size: 0.8rem; outline: none; cursor: pointer; }
+        .amz-search-input { border: none; padding: 0 1rem; flex-grow: 1; outline: none; font-size: 0.95rem; }
+        .amz-search-btn { background-color: #febd69; border: none; width: 45px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 1.1rem; }
+        .amz-search-btn:hover { background-color: #f3a847; }
+        .amz-nav-right-links { display: flex; align-items: center; gap: 1.2rem; font-size: 0.75rem; }
+        .amz-nav-link-item { color: var(--white); cursor: pointer; text-decoration: none; line-height: 1.3; }
+        .amz-nav-link-item span { color: #cccccc; display: block; }
+        .amz-nav-link-item strong { font-size: 0.85rem; display: block; }
+        
+        .amz-cart-btn { display: flex; align-items: center; gap: 0.3rem; font-weight: bold; position: relative; cursor: pointer; font-size: 0.85rem; }
+        .amz-cart-btn .count-badge { background-color: #f08804; color: var(--amazon-dark); font-size: 0.9rem; padding: 0.1rem 0.5rem; border-radius: 20px; font-weight: bold; }
+
+        /* Secondary Layer Amazon Navigation Sub-bar Stylesheet Node */
+        .amazon-navbar-sub { background-color: var(--amazon-nav); color: var(--white); padding: 0.4rem 1rem; display: flex; gap: 1rem; font-size: 0.85rem; overflow-x: auto; white-space: nowrap; }
+        .amazon-navbar-sub span { cursor: pointer; opacity: 0.9; }
+        .amazon-navbar-sub span:hover { opacity: 1; text-decoration: underline; }
+        .amazon-navbar-sub .bold-all { font-weight: bold; margin-right: 0.5rem; }
         header { background: linear-gradient(rgba(44, 23, 6, 0.85), rgba(44, 23, 6, 0.85)), url('https://unsplash.com') no-repeat center/cover; color: var(--white); text-align: center; padding: 5rem 1.5rem; border-bottom: 4px solid var(--accent); }
         header h1 { font-family: 'Cinzel', serif; font-size: 3.5rem; font-weight: 700; letter-spacing: 2px; margin-bottom: 0.5rem; }
         .legacy-tag { display: inline-block; border: 1px solid var(--accent-light); padding: 0.4rem 1.2rem; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; color: var(--accent-light); border-radius: 4px; }
@@ -22,7 +63,7 @@
         .category-card { background: var(--white); border: 2px solid #ebdcc5; border-radius: 16px; padding: 3.5rem 1.5rem; text-align: center; cursor: pointer; box-shadow: 0 6px 15px rgba(114,66,22,0.04); transition: all 0.3s ease; }
         .category-card:hover { border-color: var(--accent); background-color: var(--primary); color: var(--white); transform: translateY(-5px); }
         .category-card h2 { font-family: 'Cinzel', serif; font-size: 1.6rem; margin-bottom: 0.8rem; }
-        #category-page-view, #checkout-page-view, #success-page-view, #tracking-page-view, #admin-dashboard-view { display: none; width: 100%; }
+        #category-page-view, #checkout-page-view, #success-page-view, #tracking-page-view { display: none; width: 100%; }
         .category-header-bar { background-color: var(--primary-light); color: var(--white); padding: 2rem 1rem; text-align: center; }
         .category-header-bar h2 { font-family: 'Cinzel', serif; font-size: 2rem; }
         .back-btn { display: inline-block; margin-top: 0.5rem; background: none; border: 1px solid var(--accent-light); color: var(--accent-light); padding: 0.4rem 1.2rem; border-radius: 4px; cursor: pointer; font-weight: 600; }
@@ -35,25 +76,16 @@
         .price-tag { font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; display: block; }
         
         .qty-select { padding: 0.4rem; width: 100%; margin-bottom: 0.8rem; border: 1px solid #ebdcc5; border-radius: 6px; font-weight: bold; }
-        .buy-btn { background-color: #f0c14b; border: 1px solid #a88734; color: #111; text-align: center; padding: 0.8rem 1rem; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; display: block; font-size: 0.95rem; }
-        .buy-btn:hover { background-color: #ddb347; }
+        .buy-btn { background-color: var(--amazon-orange); border: 1px solid #a88734; color: #111; text-align: center; padding: 0.8rem 1rem; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; display: block; font-size: 0.95rem; }
+        .buy-btn:hover { background-color: var(--amazon-orange-hover); }
         .cart-drawer { position: fixed; top: 0; right: -350px; width: 350px; height: 100%; background-color: var(--white); z-index: 200; box-shadow: -4px 0 15px rgba(0,0,0,0.2); transition: right 0.3s ease; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; }
         .cart-drawer.open { right: 0; }
         .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f5ece1; padding-bottom: 1rem; }
         .close-cart { font-size: 1.5rem; cursor: pointer; background: none; border: none; }
         .cart-items-list { flex-grow: 1; overflow-y: auto; margin: 1rem 0; padding-right: 0.5rem; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px dashed #ebdcc5; padding-bottom: 0.5rem; }
-        .checkout-btn { background-color: var(--primary); color: white; width: 100%; padding: 1rem; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
-        .checkout-btn:hover { background-color: var(--primary-light); }
+        .checkout-btn { background-color: var(--amazon-dark); color: white; width: 100%; padding: 1rem; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
 
-        .checkout-flex { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
-        .checkout-form-panel { background: var(--white); border: 1px solid #ebdcc5; padding: 2rem; border-radius: 12px; }
-        .form-section-title { font-family: 'Cinzel', serif; color: var(--primary); font-size: 1.3rem; margin-bottom: 1.5rem; border-bottom: 2px solid #ebdcc5; padding-bottom: 0.5rem; }
-        .form-group { margin-bottom: 1.2rem; }
-        .form-group label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text-muted); }
-        .form-control { width: 100%; padding: 0.75rem; border: 1px solid #ebdcc5; border-radius: 6px; font-family: inherit; font-size: 0.95rem; }
-        .radio-group { display: flex; flex-direction: column; gap: 0.8rem; }
-        .radio-label { display: flex; align-items: center; gap: 0.6rem; background: #faf8f5; border: 1px solid #ebdcc5; padding: 0.8rem; border-radius: 6px; cursor: pointer; font-weight: 500; }
         .track-timeline { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem; position: relative; padding-left: 2rem; text-align: left; }
         .track-timeline::before { content: ''; position: absolute; left: 6px; top: 10px; bottom: 10px; width: 3px; background: #ebdcc5; }
         .step { position: relative; color: #a3958c; font-size: 0.95rem; transition: all 0.3s ease; }
@@ -61,35 +93,45 @@
         .step.done { color: var(--success); font-weight: bold; }
         .step.done::before { background: var(--success); box-shadow: 0 0 0 3px rgba(46,125,50,0.2); }
 
-        .admin-btn-zone { display: flex; gap: 0.5rem; margin-top: 1rem; justify-content: center; flex-wrap: wrap; }
-        .status-pill { padding: 0.5rem 1rem; border: 1px solid var(--primary); border-radius: 4px; background: white; cursor: pointer; font-weight: 600; }
-        .status-pill.active { background: var(--primary); color: white; }
-
         .upi-pay-box { text-align: center; margin: 1rem 0; padding: 1.5rem; background: #f0f7f4; border: 1px solid #c3e6cb; border-radius: 8px; display: none; }
         .upi-qr-holder { width: 180px; height: 180px; margin: 0.8rem auto; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; justify-content: center; align-items: center; }
-        .upi-qr-holder canvas { max-width: 100%; max-height: 100%; display: block; }
+        .upi-qr-holder canvas { max-width: 100% !important; max-height: 100% !important; display: block !important; }
         .upi-apps-btn { display: inline-block; background-color: #0070e0; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: bold; text-decoration: none; font-size: 0.9rem; margin-top: 0.5rem; }
 
         .success-box { max-width: 600px; background: var(--white); margin: 4rem auto; padding: 3rem 2rem; border-radius: 16px; border: 1px solid #ebdcc5; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; }
-        .success-icon { font-size: 4rem; color: var(--success); margin-bottom: 1rem; }
-        .order-id { font-weight: bold; color: var(--accent); background: #fdfaf4; padding: 0.5rem 1rem; border-radius: 6px; display: inline-block; margin: 1rem 0; font-family: monospace; font-size: 1.1rem; }
-        .receipt-summary { text-align: left; background: #faf8f5; border: 1px solid #ebdcc5; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; }
-        .receipt-row { display: flex; justify-content: space-between; border-bottom: 1px dashed #e8dfd7; padding: 0.5rem 0; font-size: 0.95rem; }
-
-        footer { background-color: #1e1915; color: #a89e95; text-align: center; padding: 3rem 1.5rem; font-size: 0.95rem; border-top: 4px solid var(--primary); }
     </style>
 </head>
 <body>
-    <div class="announcement-bar">✨ PURE TRADITIONAL ARTISAN CRAFTSMANSHIP SINCE 2000</div>
-    
-    <nav class="navbar">
-        <div class="nav-logo" onclick="returnToHome()">Potiva Store</div>
-        <div class="nav-links">
-            <button class="track-nav-btn" onclick="openTrackingView()">📍 Track Order</button>
-            <button class="cart-icon-btn" onclick="toggleCart(true)">🛒 Cart <span class="cart-count" id="global-cart-count">0</span></button>
-        </div>
-    </nav>
 
+    <!-- 1st Layer: Main Amazon Header Grid System Structure layout -->
+    <div class="amazon-navbar-main">
+        <div class="amz-logo-zone" onclick="returnToHome()">Potiva<span>.in</span></div>
+        
+        <div class="amz-loc-box">
+            📍 <div>Delivering to Berhampore 742101<br><strong>Update location</strong></div>
+        </div>
+        
+        <div class="amz-search-bar">
+            <select class="amz-search-select"><option>All</option><option>Kasa</option><option>Metallic</option></select>
+            <input type="text" class="amz-search-input" placeholder="Search Amazon.in items here...">
+            <button class="amz-search-btn">🔍</button>
+        </div>
+        
+        <div class="amz-nav-right-links">
+            <div class="amz-nav-link-item">🇮🇳 <strong>EN ▾</strong></div>
+            <div class="amz-nav-link-item"><span>Hello, sign in</span><strong>Account & Lists ▾</strong></div>
+            <div class="amz-nav-link-item" onclick="openTrackingView()"><span>Returns</span><strong>& Orders</strong></div>
+            <div class="amz-cart-btn" onclick="toggleCart(true)">
+                🛒 Cart <span class="count-badge" id="global-cart-count">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2nd Layer: Sub navbar category navigation list links row structure -->
+    <div class="amazon-navbar-sub">
+        <span class="bold-all" onclick="returnToHome()">☰ All</span>
+        <span>Fresh</span><span>MX Player</span><span>Sell</span><span>Bestsellers</span><span>Today's Deals</span><span>Mobiles</span><span>New Releases</span><span>Prime ▾</span><span>Amazon Pay</span><span>Electronics</span><span>Home & Kitchen</span><span>Fashion</span>
+    </div>
     <!-- HOMEPAGE SECTION -->
     <div id="homepage-view">
         <header>
@@ -133,8 +175,8 @@
     </div>
     <!-- NATIVE AMAZON-STYLE CHECKOUT PAGE -->
     <div id="checkout-page-view">
-        <div class="category-header-bar" style="background-color: var(--primary);">
-            <h2>Secure-Checkout</h2>
+        <div class="category-header-bar" style="background-color: var(--amazon-dark);">
+            <h2>Amazon-Style Secure Checkout</h2>
             <button class="back-btn" onclick="returnToHome()">← Cancel & Go Back</button>
         </div>
         <form id="native-checkout-form" action="https://formspree.io" method="POST" onsubmit="handleFormSubmission(event)">
@@ -154,8 +196,7 @@
                     </div>
                     <div class="upi-pay-box" id="upi-node">
                         <p style="font-weight:600; font-size:0.9rem; color:var(--primary);">Scan QR or Click Mobile Link to Pay:</p>
-                        <!-- Updated Canvas Slot for Local Drawing Framework -->
-                        <div class="upi-qr-holder" id="offline-qrcode-element"></div>
+                        <div class="upi-qr-holder"><canvas id="offline-qrcode-canvas"></canvas></div>
                         <a class="upi-apps-btn" id="live-upi-link" href="#" target="_blank">Open UPI App</a>
                     </div>
                     <input type="hidden" name="Order ID" id="hidden-order-id">
@@ -171,14 +212,13 @@
     </div>
     <!-- CONTROLLED LIVE TRACKING VIEW -->
     <div id="tracking-page-view">
-        <div class="success-box" style="margin-top:2rem;">
+        <div class="success-box" style="margin-top:2rem; max-width:700px;">
             <div class="form-section-title">📦 Track Your Amazon-Style Order</div>
             <p style="margin-bottom: 1.5rem; color:var(--text-muted);">Order ID ya Secret Key daal kar status dekhein ya badlein:</p>
             <div style="display:flex; gap:0.5rem; max-width:400px; margin:0 auto 2rem auto;">
                 <input type="text" class="form-control" id="track-input-id" placeholder="POT-123456">
                 <button class="buy-btn" style="width:120px; margin:0;" onclick="executeTrackingSearch()">Search</button>
             </div>
-            
             <div id="tracking-visual-result" style="display:none; border-top:1px dashed #ebdcc5; padding-top:1.5rem;">
                 <h3 style="color:var(--primary);" id="track-display-id">Order ID: #POT-XXXXXX</h3>
                 <div class="track-timeline">
@@ -188,7 +228,6 @@
                     <div class="step" id="step-4">🏠 Out for Delivery / Successfully Delivered</div>
                 </div>
             </div>
-
             <div id="admin-control-dashboard" style="display:none; margin-top:2rem; background:#f4eade; padding:1.5rem; border-radius:8px; border:1px solid var(--primary);">
                 <h4 style="color:var(--primary);">🛠️ Potiva Admin Order Controller</h4>
                 <p style="font-size:0.85rem; margin-bottom:1rem;">Select tracking step level for current Order ID:</p>
@@ -201,6 +240,7 @@
             </div>
         </div>
     </div>
+
     <!-- DIGITAL ORDER SUCCESS SCREEN -->
     <div id="success-page-view">
         <div class="success-box">
@@ -212,7 +252,6 @@
             <button class="checkout-btn" onclick="returnToHome()">Continue Shopping</button>
         </div>
     </div>
-
     <div id="cart-drawer" class="cart-drawer">
         <div class="cart-header">
             <h3>Shopping Cart</h3>
@@ -254,6 +293,7 @@
 
     function returnToHome() {
         document.getElementById("homepage-view").style.display = "block";
+        document.getElementById("category-page-view").style.none;
         document.getElementById("category-page-view").style.display = "none";
         document.getElementById("checkout-page-view").style.display = "none";
         document.getElementById("success-page-view").style.display = "none";
@@ -313,19 +353,12 @@
         var upiLinkRaw = `upi://pay?pa=${MY_UPI_ID}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${total}&cu=INR`;
         document.getElementById("live-upi-link").href = upiLinkRaw;
         
-        // 100% Native Pure JS Canvas Drawing Logic (No External Library Crashing)
-        var qrcodeContainer = document.getElementById("offline-qrcode-element");
-        qrcodeContainer.innerHTML = "";
-        
-        // Create an alternate image tag dynamically using secure global chart fallback
-        var img = document.createElement("img");
-        img.src = "https://qrserver.com" + encodeURIComponent(upiLinkRaw);
-        img.style.width = "160px";
-        img.style.height = "160px";
-        img.onerror = function() {
-            qrcodeContainer.innerHTML = "<p style='font-size:0.8rem;color:red;'>Tap button below to pay directly</p>";
-        };
-        qrcodeContainer.appendChild(img);
+        var canvasNode = document.getElementById("offline-qrcode-canvas");
+        if(window.QRCode) {
+            QRCode.toCanvas(canvasNode, upiLinkRaw, { width: 160, margin: 1 }, function (error) {
+                if (error) console.error(error);
+            });
+        }
         
         document.getElementById("homepage-view").style.display = "none";
         document.getElementById("category-page-view").style.display = "none";
