@@ -105,6 +105,114 @@
         .upi-apps-btn { display: inline-block; background-color: #0070e0; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: bold; text-decoration: none; font-size: 0.9rem; margin-top: 0.5rem; }
 
         .success-box { max-width: 600px; background: var(--white); margin: 4rem auto; padding: 3rem 2rem; border-radius: 16px; border: 1px solid #ebdcc5; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; }
+    /* ---- START: POTIVA STORE AUTH & DROPDOWN STYLES ---- */
+        .nav-dropdown-container { position: relative; }
+        
+        .dropdown-menu-box {
+            display: none; 
+            position: absolute; 
+            top: 100%; 
+            right: 0;
+            background-color: #ffffff; 
+            min-width: 180px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.15); 
+            border-radius: 4px;
+            z-index: 1000; 
+            padding: 12px; 
+            margin-top: 5px; 
+            text-align: left;
+        }
+        
+        .nav-dropdown-container:hover .dropdown-menu-box { display: block; }
+        
+        .sign-in-btn {
+            display: block; 
+            width: 100%; 
+            text-align: center;
+            background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+            border: 1px solid #a88734; 
+            color: #111111; 
+            padding: 8px 0;
+            border-radius: 3px; 
+            font-size: 13px; 
+            font-weight: bold; 
+            cursor: pointer;
+        }
+        
+        .new-customer-text { 
+            font-size: 11px; 
+            text-align: center; 
+            color: #333333; 
+            margin-top: 8px; 
+            margin-bottom: 0; 
+        }
+        
+        .new-customer-text a { color: #0066c0; text-decoration: none; }
+        
+        /* ---- Popup Modal Styles ---- */
+        .custom-modal-overlay {
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000; 
+            justify-content: center; 
+            align-items: center;
+        }
+        
+        .modal-card-box {
+            background-color: #ffffff; 
+            padding: 25px; 
+            border-radius: 8px;
+            width: 100%; 
+            max-width: 320px; 
+            position: relative; 
+            text-align: left;
+            animation: amzPop 0.3s ease;
+        }
+        
+        .close-modal-btn { 
+            position: absolute; 
+            top: 5px; 
+            right: 12px; 
+            font-size: 24px; 
+            color: #aaa; 
+            cursor: pointer; 
+        }
+        
+        .modal-title { font-size: 22px; font-weight: 400; margin-bottom: 15px; color: #111; }
+        .input-form-group { margin-bottom: 12px; }
+        .input-form-group label { display: block; font-size: 12px; font-weight: bold; color: #111; margin-bottom: 4px; }
+        
+        .input-form-group input { 
+            width: 100%; 
+            padding: 6px; 
+            border: 1px solid #a6a6a6; 
+            border-radius: 3px; 
+            box-sizing: border-box; 
+            color: #111111; 
+            background: #ffffff; 
+        }
+        
+        .modal-submit-btn {
+            width: 100%; 
+            padding: 8px; 
+            background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+            border: 1px solid #a88734; 
+            border-radius: 3px; 
+            font-size: 13px; 
+            cursor: pointer; 
+            margin-top: 10px; 
+            color: #111111;
+        }
+        
+        .modal-switch-text { font-size: 12px; margin-top: 15px; text-align: center; color: #333; }
+        .modal-switch-text a { color: #0066c0; text-decoration: none; }
+        /* ---- END: POTIVA STORE AUTH & DROPDOWN STYLES ---- */
+
     </style>
 </head>
 <body>
@@ -124,7 +232,20 @@
         
         <div class="amz-nav-right-links">
             <div class="amz-nav-link-item" onclick="toggleLanguageModal(true)">🌐 <strong id="current-lang-nav-label">EN ▾</strong></div>
-            <div class="amz-nav-link-item"><span>Hello, sign in</span><strong>Account & Lists ▾</strong></div>
+            <!-- Account dropdown menu link -->
+            <div class="amz-nav-link-item nav-dropdown-container">
+                <span>Hello, sign in</span>
+                <strong>Account & Lists <span class="arrow-down">▾</span></strong>
+                
+                <!-- Hover drop menu -->
+                <div class="dropdown-menu-box">
+                    <div class="dropdown-content">
+                        <button onclick="openLoginModal()" class="sign-in-btn">Sign in / Login</button>
+                        <p class="new-customer-text">New customer? <a href="#" onclick="openRegisterModal()">Start here.</a></p>
+                    </div>
+                </div>
+            </div>
+
             <div class="amz-nav-link-item" onclick="openTrackingView()"><span id="txt-returns">Returns</span><strong id="txt-orders">& Orders</strong></div>
             <div class="amz-cart-btn" onclick="toggleCart(true)">
                 🛒 <span id="txt-cart">Cart</span> <span class="count-badge" id="global-cart-count">0</span>
@@ -156,6 +277,51 @@
             <div class="lang-option-row" onclick="applyLanguageEngine('bn')"><input type="radio" name="lang-sel" id="l-bn"> <span>বাংলা - Bengali (BN)</span></div>
         </div>
     </div>
+    <!-- Account Authentication Popup Window -->
+    <div id="authAccountModal" class="custom-modal-overlay">
+        <div class="modal-card-box">
+            <span class="close-modal-btn" onclick="closeAuthModal()">&times;</span>
+            
+            <!-- Interactive Sign In Submodule -->
+            <div id="loginFormSection">
+                <h2 class="modal-title">Sign in</h2>
+                <form onsubmit="event.preventDefault(); alert('Login Successful!'); closeAuthModal();">
+                    <div class="input-form-group">
+                        <label>Email or mobile phone number</label>
+                        <input type="text" required placeholder="Enter Email / Mobile">
+                    </div>
+                    <div class="input-form-group">
+                        <label>Password</label>
+                        <input type="password" required placeholder="Enter Password">
+                    </div>
+                    <button type="submit" class="modal-submit-btn">Continue</button>
+                </form>
+                <p class="modal-switch-text">New to Potiva Store? <a href="#" onclick="toggleForm('register')">Create your account</a></p>
+            </div>
+    
+            <!-- Interactive Registration Submodule -->
+            <div id="registerFormSection" style="display: none;">
+                <h2 class="modal-title">Create Account</h2>
+                <form onsubmit="event.preventDefault(); alert('Account Created Successfully!'); closeAuthModal();">
+                    <div class="input-form-group">
+                        <label>Your name</label>
+                        <input type="text" required placeholder="First and last name">
+                    </div>
+                    <div class="input-form-group">
+                        <label>Mobile number or Email</label>
+                        <input type="text" required placeholder="Enter Mobile / Email">
+                    </div>
+                    <div class="input-form-group">
+                        <label>Password</label>
+                        <input type="password" required placeholder="At least 6 characters">
+                    </div>
+                    <button type="submit" class="modal-submit-btn">Verify Account</button>
+                </form>
+                <p class="modal-switch-text">Already have an account? <a href="#" onclick="toggleForm('login')">Sign in</a></p>
+            </div>
+        </div>
+    </div>
+
     <!-- HOMEPAGE SECTION -->
     <div id="homepage-view">
         <header>
@@ -595,6 +761,60 @@
         document.getElementById("success-page-view").style.display = "block";
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+        // ---- START: POTIVA STORE AUTHENTICATION LOGIC ----
+
+// Login modal window open karne ke liye
+    function openLoginModal() {
+        var modal = document.getElementById('authAccountModal');
+        if (modal) {
+            modal.style.display = 'flex';
+            toggleForm('login'); // Modal khulte hi pehle login form show hoga
+        }
+    }
+    
+    // "Start here" click karne par seedha register option open karne ke liye
+    function openRegisterModal() {
+        var modal = document.getElementById('authAccountModal');
+        if (modal) {
+            modal.style.display = 'flex';
+            toggleForm('register'); // Seedha create account screen active hogi
+        }
+    }
+    
+    // Popup modal ko close karne ke liye
+    function closeAuthModal() {
+        var modal = document.getElementById('authAccountModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+    
+    // Login aur Register forms ke beech toggle switch control karne ke liye
+    function toggleForm(formType) {
+        var loginSection = document.getElementById('loginFormSection');
+        var registerSection = document.getElementById('registerFormSection');
+        
+        if (loginSection && registerSection) {
+            if (formType === 'login') {
+                loginSection.style.display = 'block';
+                registerSection.style.display = 'none';
+            } else {
+                loginSection.style.display = 'none';
+                registerSection.style.display = 'block';
+            }
+        }
+    }
+    
+    // Agar koi card/popup se bahar black background par click kare toh modal close ho jaye
+    window.addEventListener('click', function(event) {
+        var modal = document.getElementById('authAccountModal');
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+    
+    // ---- END: POTIVA STORE AUTHENTICATION LOGIC ----
+
     </script>
 </body>
 </html>
