@@ -1092,6 +1092,163 @@ body {
         }
 
         startTimer(); // Slider ko activate karne ke liye
+            // ==========================================================================
+        // 🛒 APKE PROJECT KA WORKING CART & LOCAL STORAGE ENGINE
+        // ==========================================================================
+        
+        // 1. Local Storage se items load karein ya empty array set karein
+        let cart = JSON.parse(localStorage.getItem('potiva_cart')) || [];
+        
+        // 2. Aapke purane HTML elements ke exact IDs mapping
+        const cartDrawer = document.getElementById('cart-drawer');
+        const cartItemsContainer = document.getElementById('cart-items-container');
+        const cartTotalPrice = document.getElementById('cart-total-price');
+        const globalCartCount = document.getElementById('global-cart-count'); // Navbar count badge
+
+        // 3. Open/Close Drawer Logic (Jo aapke onclick="toggleCart" se match karega)
+        window.toggleCart = function(openStatus) {
+            if(openStatus) {
+                cartDrawer.classList.add('active'); // CSS me transform property ko toggle karne ke liye
+                cartDrawer.style.transform = "translateX(0)"; // Agar side drawer slide karna ho
+            } else {
+                cartDrawer.classList.remove('active');
+                cartDrawer.style.transform = "translateX(100%)"; // Screen se bahar bejne ke liye
+            }
+        }
+
+        // 4. Interface aur Prices update karne ka complete calculation block
+        function updateCartDOM() {
+            // LocalStorage me instantly save karein taaki refresh par data na uday
+            localStorage.setItem('potiva_cart', JSON.stringify(cart));
+            
+            // Navbar Badge update logic
+            let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            if(globalCartCount) globalCartCount.textContent = totalCount;
+
+            // List area clean karein
+            cartItemsContainer.innerHTML = '';
+            
+            if(cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p style="color:var(--text-muted); text-align:center; margin-top:2rem;">Your cart is empty.</p>';
+                cartTotalPrice.textContent = '₹0';
+                return;
+            }
+
+            let grandTotal = 0;
+
+            // Cart ke andar items append karein loop chalakar
+            cart.forEach(item => {
+                let itemTotal = item.price * item.quantity;
+                grandTotal += itemTotal;
+
+                const itemRow = document.createElement('div');
+                itemRow.style.cssText = "display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.1);";
+                itemRow.innerHTML = `
+                    <div>
+                        <h4 style="margin:0 0 4px 0; font-size:0.95rem;">${item.name}</h4>
+                        <div style="font-size:0.9rem; color:#b12704;">₹${item.price}</div>
+                        <span style="color:#007185; font-size:0.8rem; cursor:pointer;" onclick="removeFromCart('${item.name}')">Delete</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <button style="padding:2px 8px; cursor:pointer;" onclick="changeQty('${item.name}', -1)">-</button>
+                        <span>${item.quantity}</span>
+                        <button style="padding:2px 8px; cursor:pointer;" onclick="changeQty('${item.name}', 1)">+</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(itemRow);
+            });
+
+            // Final Bill setting
+            cartTotalPrice.textContent = `₹${grandTotal}`;
+        }
+
+        // 5. Add item function (Is function ko aap apne card click handler par call kar sakte hain)
+                // ==========================================================================
+        // 🛒 APKE QUANTITY SELECT DROPDOWN KE SATH SYNCED CART LOGIC
+        // ==========================================================================
+        window.addToCart = function(name, price, qtySelectId) {
+            // Dropdown element se quantity uthayein
+            const qtyElement = document.getElementById(qtySelectId);
+            let selectedQty = qtyElement ? parseInt(qtyElement.value) : 1;
+
+            // Check karein agar product pehle se cart me hai
+            let existingItem = cart.find(item => item.name === name);
+            
+            if(existingItem) {
+                // Agar pehle se hai, toh selected quantity ko add kar dein
+                existingItem.quantity += selectedQty;
+            } else {
+                // Agar naya hai, toh item aur uski selected quantity cart me push karein
+                cart.push({ 
+                    name: name, 
+                    price: parseFloat(price), 
+                    quantity: selectedQty 
+                });
+            }
+
+            // Cart render aur save karein
+            updateCartDOM();
+            
+            // Item add hone ke baad cart drawer ko smoothly open karein
+            toggleCart(true); 
+        }
+
+
+        // 6. Quantity change handlers (+ aur - buttons)
+        window.changeQty = function(name, change) {
+            let item = cart.find(item => item.name === name);
+            if(item) {
+                item.quantity += change;
+                if(item.quantity <= 0) {
+                    cart = cart.filter(i => i.name !== name);
+                }
+            }
+            updateCartDOM();
+        }
+
+        // 7. Dynamic Delete engine
+        window.removeFromCart = function(name) {
+            cart = cart.filter(item => item.name !== name);
+            updateCartDOM();
+        }
+
+        // 8. Dynamic Navigation mock logic
+        window.navigateToCheckout = function() {
+            if(cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+            alert("Proceeding to checkout with total amount: " + cartTotalPrice.textContent);
+        };
+
+        // Website load hote hi stored state pull karein
+        updateCartDOM();
+
+
+        // ==========================================================================
+        // 🔍 REAL-TIME PRODUCT SEARCH FILTER ENGINE
+        // ==========================================================================
+        const searchInput = document.querySelector('.amz-search-input');
+        const searchBtn = document.querySelector('.amz-search-btn');
+        const productCards = document.querySelectorAll('.product-card');
+
+        function filterProducts() {
+            if(!searchInput) return;
+            const query = searchInput.value.toLowerCase().trim();
+
+            productCards.forEach(card => {
+                const title = card.querySelector('h3') ? card.querySelector('h3').textContent.toLowerCase() : '';
+                if (title.includes(query)) {
+                    card.style.display = ""; // Card visible
+                } else {
+                    card.style.setProperty("display", "none", "important"); // Card hide
+                }
+            });
+        }
+
+        if(searchInput) searchInput.addEventListener('input', filterProducts);
+        if(searchBtn) searchBtn.addEventListener('click', (e) => { e.preventDefault(); filterProducts(); });
+
     </script>
 </body>
 </html>
