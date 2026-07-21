@@ -286,6 +286,113 @@
         font-size: 1.6rem;
     }
 }
+        /* ==========================================================================
+   🌓 DARK MODE CONFIGURATION
+   ========================================================================== */
+:root {
+    --bg-color: #ffffff;
+    --card-bg: #ffffff;
+    --text-color: #0f1111;
+}
+
+[data-theme="dark"] {
+    --bg-color: #131921;   /* Amazon body black */
+    --card-bg: #232f3e;   /* Cards background */
+    --text-color: #ffffff; /* Light text */
+}
+
+/* Base style hooks for theme switching */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.category-card {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+}
+
+.theme-btn {
+    background: #febd69;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #111;
+}
+
+/* ==========================================================================
+   🍔 HAMBURGER & SIDE PANEL SYSTEM
+   ========================================================================== */
+.hamburger-menu {
+    display: none; /* Desktop par chhupa rahega */
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.hamburger-menu span {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
+.side-panel {
+    position: fixed;
+    top: 0;
+    left: -280px; /* Initially hidden on left */
+    width: 280px;
+    height: 100%;
+    background-color: #232f3e;
+    color: white;
+    z-index: 10000;
+    transition: 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+}
+
+.side-panel.open {
+    left: 0; /* Sliding animation effect */
+}
+
+.side-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #3a4b5c;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.close-btn {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.side-panel a {
+    color: white;
+    text-decoration: none;
+    padding: 12px 5px;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #2d3d4d;
+}
+
+/* Pehle se bane mobile query ke complement ke liye */
+@media screen and (max-width: 768px) {
+    .hamburger-menu {
+        display: flex !important;
+    }
+    .amz-nav-right-links {
+        display: none !important; /* Mobile par desktop links hide ho jayenge */
+    }
+}
+
 
     </style>
 </head>
@@ -319,8 +426,36 @@
                 🛒 <span id="txt-cart">Cart</span> <span class="count-badge" id="global-cart-count">0</span>
             </div>
         </div>
-    </div>
+    </div>      
 
+        <!-- ⬇️ LINE 321 KE THEEK BAAD YEH PURA CODE PASTE KAR DEIN ⬇️ -->
+            <div class="nav-controls" style="display: flex; align-items: center; gap: 15px; margin-left: auto; padding-right: 15px;">
+                <!-- Dark Mode Button -->
+                <button id="dark-mode-toggle" class="theme-btn">🌙 Dark Mode</button>
+                
+                <!-- Hamburger Icon (Sirf mobile me dikhega) -->
+                <div class="hamburger-menu" id="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+    
+        </div> <!-- Line 322 wala close tag ab yahan aa jayega -->
+    
+        <!-- Sliding Side Panel Layout -->
+        <div class="side-panel" id="mobile-side-panel">
+            <div class="side-panel-header">
+                <h3>Amazon Menu</h3>
+                <span class="close-btn" id="close-panel-btn">&times;</span>
+            </div>
+            <a href="#">Home</a>
+            <a href="#">Kasa Collection</a>
+            <a href="#">Orders</a>
+            <a href="#">Cart</a>
+        </div>
+    
+        <!-- Line 324: Aapka purana amazon-navbar-sub yahan se shuru hoga -->
     <div class="amazon-navbar-sub">
         <span class="bold-all" onclick="returnToHome()"></span>
         
@@ -919,7 +1054,44 @@
         
         // Ensure interface maps profile states dynamically upon boot frame execution 
         document.addEventListener('DOMContentLoaded', syncUserGreetingState);
+            // ... Aapka purana hamburger aur dark mode ka JavaScript logic yahan chal raha hoga ...
 
+        // 🎡 AUTOMATIC HERO IMAGE SLIDER ENGINE (Theek yahan paste karein)
+        const slides = document.querySelectorAll('.slide');
+        const nextBtn = document.getElementById('next-slide');
+        const prevBtn = document.getElementById('prev-slide');
+        let currentIndex = 0;
+        let slideInterval;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            if (index >= slides.length) currentIndex = 0;
+            else if (index < 0) currentIndex = slides.length - 1;
+            else currentIndex = index;
+            slides[currentIndex].classList.add('active');
+        }
+
+        function nextSlide() {
+            showSlide(currentIndex + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentIndex - 1);
+        }
+
+        nextBtn.addEventListener('click', () => { nextSlide(); resetTimer(); });
+        prevBtn.addEventListener('click', () => { prevSlide(); resetTimer(); });
+
+        function startTimer() {
+            slideInterval = setInterval(nextSlide, 5000); // 5 seconds change loop
+        }
+
+        function resetTimer() {
+            clearInterval(slideInterval);
+            startTimer();
+        }
+
+        startTimer(); // Slider ko activate karne ke liye
     </script>
 </body>
 </html>
