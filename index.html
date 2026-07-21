@@ -393,6 +393,31 @@ body {
     }
 }
 
+    /* ==========================================================================
+   🎯 CART DRAWER CSS FIX (Ise CSS me sabse niche jodein)
+   ========================================================================== */
+.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 100%;
+    background-color: var(--card-bg, #ffffff);
+    z-index: 100000 !important; /* Taaki yeh sabse upar dikhe */
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    
+    /* 📁 Shuru me ise screen se bahar (Right side) rakhne ke liye */
+    transform: translateX(100%); 
+    transition: transform 0.3s ease-in-out;
+}
+
+/* 🟢 Jab JavaScript toggleCart(true) karega, tab yeh class chalegi */
+.cart-drawer.active {
+    transform: translateX(0) !important;
+    display: flex !important;
+}
 
     </style>
 </head>
@@ -1097,50 +1122,55 @@ body {
         // ==========================================================================
         
         // 1. Local Storage se items load karein ya empty array set karein
+        // ==========================================================================
+// 🛒 100% WORKING GLOBAL CART ENGINE (Ise script me replace karein)
+// ==========================================================================
+        // ==========================================================================
+// 🛒 100% SECURE GLOBAL CART LOGIC ENGINE
+// ==========================================================================
         let cart = JSON.parse(localStorage.getItem('potiva_cart')) || [];
         
-        // 2. Aapke purane HTML elements ke exact IDs mapping
         const cartDrawer = document.getElementById('cart-drawer');
         const cartItemsContainer = document.getElementById('cart-items-container');
         const cartTotalPrice = document.getElementById('cart-total-price');
-        const globalCartCount = document.getElementById('global-cart-count'); // Navbar count badge
-
-        // 3. Open/Close Drawer Logic (Jo aapke onclick="toggleCart" se match karega)
+        const globalCartCount = document.getElementById('global-cart-count');
+        
+        // 🚪 Open / Close Custom Drawer System
         window.toggleCart = function(openStatus) {
-            if(openStatus) {
-                cartDrawer.classList.add('active'); // CSS me transform property ko toggle karne ke liye
-                cartDrawer.style.transform = "translateX(0)"; // Agar side drawer slide karna ho
+            if (!cartDrawer) return;
+            if (openStatus) {
+                cartDrawer.style.display = "flex"; 
+                cartDrawer.style.transform = "translateX(0)";
+                cartDrawer.classList.add('active');
             } else {
+                cartDrawer.style.transform = "translateX(100%)";
                 cartDrawer.classList.remove('active');
-                cartDrawer.style.transform = "translateX(100%)"; // Screen se bahar bejne ke liye
             }
         }
-
-        // 4. Interface aur Prices update karne ka complete calculation block
+        
+        // 🧮 Calculation Matrix and Display Renderer
         function updateCartDOM() {
-            // LocalStorage me instantly save karein taaki refresh par data na uday
             localStorage.setItem('potiva_cart', JSON.stringify(cart));
             
-            // Navbar Badge update logic
+            // Global counter setter
             let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-            if(globalCartCount) globalCartCount.textContent = totalCount;
-
-            // List area clean karein
+            if (globalCartCount) globalCartCount.textContent = totalCount;
+        
+            if (!cartItemsContainer) return;
             cartItemsContainer.innerHTML = '';
             
-            if(cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p style="color:var(--text-muted); text-align:center; margin-top:2rem;">Your cart is empty.</p>';
-                cartTotalPrice.textContent = '₹0';
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p style="color:var(--text-muted); text-align:center; margin-top:30px;">Your cart is empty.</p>';
+                if (cartTotalPrice) cartTotalPrice.textContent = '₹0';
                 return;
             }
-
+        
             let grandTotal = 0;
-
-            // Cart ke andar items append karein loop chalakar
+        
             cart.forEach(item => {
                 let itemTotal = item.price * item.quantity;
                 grandTotal += itemTotal;
-
+        
                 const itemRow = document.createElement('div');
                 itemRow.style.cssText = "display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.1);";
                 itemRow.innerHTML = `
@@ -1157,72 +1187,92 @@ body {
                 `;
                 cartItemsContainer.appendChild(itemRow);
             });
-
-            // Final Bill setting
-            cartTotalPrice.textContent = `₹${grandTotal}`;
+        
+            if (cartTotalPrice) cartTotalPrice.textContent = `₹${grandTotal}`;
         }
-
-        // 5. Add item function (Is function ko aap apne card click handler par call kar sakte hain)
-                // ==========================================================================
-        // 🛒 APKE QUANTITY SELECT DROPDOWN KE SATH SYNCED CART LOGIC
-        // ==========================================================================
+        
+        // 🛍️ Functional Add Target Method
         window.addToCart = function(name, price, qtySelectId) {
-            // Dropdown element se quantity uthayein
             const qtyElement = document.getElementById(qtySelectId);
             let selectedQty = qtyElement ? parseInt(qtyElement.value) : 1;
-
-            // Check karein agar product pehle se cart me hai
+        
             let existingItem = cart.find(item => item.name === name);
             
-            if(existingItem) {
-                // Agar pehle se hai, toh selected quantity ko add kar dein
+            if (existingItem) {
                 existingItem.quantity += selectedQty;
             } else {
-                // Agar naya hai, toh item aur uski selected quantity cart me push karein
                 cart.push({ 
                     name: name, 
                     price: parseFloat(price), 
                     quantity: selectedQty 
                 });
             }
-
-            // Cart render aur save karein
+        
             updateCartDOM();
-            
-            // Item add hone ke baad cart drawer ko smoothly open karein
-            toggleCart(true); 
+            window.toggleCart(true); 
         }
-
-
-        // 6. Quantity change handlers (+ aur - buttons)
+        
+        // ➕➖ Quantity controls
         window.changeQty = function(name, change) {
             let item = cart.find(item => item.name === name);
-            if(item) {
+            if (item) {
                 item.quantity += change;
-                if(item.quantity <= 0) {
+                if (item.quantity <= 0) {
                     cart = cart.filter(i => i.name !== name);
                 }
             }
             updateCartDOM();
         }
-
-        // 7. Dynamic Delete engine
+        
+        // 🗑️ Delete logic
         window.removeFromCart = function(name) {
             cart = cart.filter(item => item.name !== name);
             updateCartDOM();
         }
-
-        // 8. Dynamic Navigation mock logic
+        
+        // Checkout alert route mockup
         window.navigateToCheckout = function() {
-            if(cart.length === 0) {
+            if (cart.length === 0) {
                 alert("Your cart is empty!");
                 return;
             }
-            alert("Proceeding to checkout with total amount: " + cartTotalPrice.textContent);
+            alert("Proceeding to checkout with total amount: " + (cartTotalPrice ? cartTotalPrice.textContent : '₹0'));
         };
-
-        // Website load hote hi stored state pull karein
+        
+        // ⚡ NAVBAR CART BUTTON FIX: Apne aap click event bind karega
+        document.addEventListener("DOMContentLoaded", () => {
+            const navCartBtn = document.querySelector(".amz-cart-btn") || document.getElementById("txt-cart");
+            if (navCartBtn) {
+                navCartBtn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    window.toggleCart(true);
+                });
+            }
+        });
+        
+        // App initial refresh sequence
         updateCartDOM();
+
+        }
+        
+        // 🗑️ Individual delete filter
+        window.removeFromCart = function(name) {
+            cart = cart.filter(item => item.name !== name);
+            updateCartDOM();
+        }
+        
+        // Checkout path route mockup
+        window.navigateToCheckout = function() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+            alert("Proceeding to checkout with total amount: " + (cartTotalPrice ? cartTotalPrice.textContent : '₹0'));
+        };
+        
+        // Application initial boot setup
+        updateCartDOM();
+
 
 
         // ==========================================================================
